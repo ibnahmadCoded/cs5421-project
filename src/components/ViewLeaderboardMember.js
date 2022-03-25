@@ -1,0 +1,49 @@
+import { useNavigate } from "react-router-dom";
+import Button from './Button'
+
+const ViewLeaderboardMember = ({ corr_query, user, users }) => {
+    const navigate = useNavigate();
+
+    const onClick = (id) => {
+        navigate(`/view-eval-result/${id}`)
+    }
+
+    // Get User by ID from the query`s userId
+    const user_ = users.filter((use) => use.id === corr_query.userId)
+
+    // get username (Student ID from NUS)
+    const username = user_.map(user => {return user.username})[0]
+
+    return (
+        <div className={`leaderboard`}>
+            <>
+                {user.map(user => {return user.userType})[0] === "Admin" ? 
+                    <p>
+                        <span>{username}</span>
+                        <span className="leaderboardP">{corr_query.query}</span> 
+                        <span className="leaderboardP">{corr_query.executionTime}</span> 
+                        <span className="leaderboardP">{corr_query.planningTime}</span> 
+                        <span className="leaderboardP">
+                            <Button color="#ED6630" text="View" onClick={() => onClick(corr_query.id)}/>
+                        </span>
+                    </p>
+                    : 
+                    <p>
+                        <span>{username}</span> 
+                        <span className="leaderboardP1">{corr_query.executionTime}</span> 
+                        <span className="leaderboardP1">{corr_query.planningTime}</span>
+                        {user.map(user => {return user.id})[0] === 
+                        user_.map(user => {return user.id})[0] ? 
+                        <span className="leaderboardP1">
+                            <Button color="#ED6630" text="View" onClick={() => onClick(corr_query.id)}/>
+                        </span>
+                        : ""}
+                    </p>
+                }
+                <p style={{color:"#ED6630", fontSize:"10px"}}>Submitted on {corr_query.submissionDate}</p>
+            </>
+        </div>
+    )
+}
+
+export default ViewLeaderboardMember

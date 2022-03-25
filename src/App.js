@@ -10,6 +10,9 @@ import Submissions from "./components/Submissions"
 import SideBar from "./components/SideBar"
 import Settings from "./components/Settings"
 import Logout from "./components/Logout"
+import SubmitQuery from "./components/SubmitQuery"
+import ViewLeaderboard from "./components/ViewLeaderboard"
+import ViewEvaluationResult from "./components/ViewEvaluationResult"
 
 function App() {
 
@@ -17,16 +20,22 @@ function App() {
     [
         {
             id: 1,
-            username: "abcd1",
+            username: "DZ12345AB",
             userType: "Admin",
             createdAt: "Mar 10th at 2:30pm",
         },
         {
           id: 2,
-          username: "abcd3",
+          username: "AF12345CD",
           userType: "Student",
           createdAt: "Mar 10th at 2:30pm",
-      },
+        },
+        {
+          id: 3,
+          username: "GA12345PO",
+          userType: "Student",
+          createdAt: "Mar 10th at 2:30pm",
+        },
     ]
 
   const [contests, setContests] = useState(
@@ -66,14 +75,78 @@ function App() {
             expectedResult: "abc",
             tables: ["Tablex", "Tabley", "Tablez"],
             reminder: true,
+        },
+        {
+          id: 5,
+          title: "Find Nothing",
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing. Lorem ipsum dolor sit amet, consectetur adipiscing ",
+          startDate: "Mar 10th at 2:30pm",
+          endDate: "Mar 30th at 2:30pm",
+          maxTries: 1,
+          maxExecutionTime: 200,
+          expectedResult: "abc",
+          tables: ["Tablex", "Tabley", "Tablez"],
+          reminder: true,
         }
     ]
 )
+
+  const [dbqueries, setDbqueries] = useState(
+    [
+        {
+            id: 1,
+            userId: 2,
+            contestId: 1,
+            submissionDate: "Mar 10th at 2:30pm",
+            tries: 0,
+            executionTime: 2,
+            planningTime: 0,
+            result: "abc",
+            query: "SELECT * FROM A",
+        },
+        {
+            id: 2,
+            userId: 2,
+            contestId: 1,
+            submissionDate: "Mar 10th at 2:30pm",
+            tries: 0,
+            executionTime: 3,
+            planningTime: 0,
+            result: "abcd",
+            query: "SELECT * FROM A",
+        },
+        {
+            id: 3,
+            userId: 2,
+            contestId: 3,
+            submissionDate: "Mar 10th at 2:30pm",
+            tries: 0,
+            executionTime: 5,
+            planningTime: 0,
+            result: "abc",
+            query: "SELECT * FROM A",
+        },
+        {
+          id: 4,
+          userId: 3,
+          contestId: 3,
+          submissionDate: "Mar 1th at 2:30pm",
+          tries: 0,
+          executionTime: 1,
+          planningTime: 0,
+          result: "abc",
+          query: "SELECT * FROM A",
+        },
+    ]
+  )
 
 // Delete Contest
 const deleteContest = (id) => {
   setContests(contests.filter((contest) => contest.id !== id))
 }
+
+
+
 
 // Toggle reminder to remind user of close deadlines.
 const toggleReminder = (id) => {
@@ -82,7 +155,7 @@ const toggleReminder = (id) => {
 }
 
 // Get User with id = 1. This should be passed from backend after signIn
-const user = users.filter((user) => user.id === 1)
+const user = users.filter((user) => user.id === 2)
 
 // get current url for the purpose of updating highlights in sidebar
 const currentUrl = "/"+(window.location.href).split("/").slice(-1)
@@ -98,7 +171,7 @@ const currentUrl = "/"+(window.location.href).split("/").slice(-1)
               (
                 <>
                   {contests.length > 0 ? (
-                    <Contests user={user} contests={contests} onDelete=
+                    <Contests dbqueries={dbqueries} user={user} contests={contests} onDelete=
                     {deleteContest} onToggle={toggleReminder}/>) : 
                     ("No Contests Available")}
                 </>
@@ -106,9 +179,12 @@ const currentUrl = "/"+(window.location.href).split("/").slice(-1)
             <Route path="/about" element={<About />} />
             <Route path="/create-contest" element={<CreateContest />} />
             <Route path="/leaderboards" element={<Leaderboards user={user} leaderboards={contests}/>} />
-            <Route path="/submissions" element={<Submissions />} />
+            <Route path="/submissions" element={<Submissions dbqueries={dbqueries} user={user} contests={contests}/>} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/logout" element={<Logout />} />
+            <Route path="/view-leaderboard/:id" element={<ViewLeaderboard users={users} user={user} contests={contests} dbqueries={dbqueries}/>} />
+            <Route path="/submit-query/:id" element={<SubmitQuery user={user} contests={contests} dbqueries={dbqueries}/>} />
+            <Route path="/view-eval-result/:id" element={<ViewEvaluationResult user={user} contests={contests} dbqueries={dbqueries}/>} />
           </Routes>
           <Footer user={user} />
       </div>
