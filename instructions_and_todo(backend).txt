@@ -1,0 +1,31 @@
+TODO (backend):
+App.js (line 150)
+App.js (line 218)
+
+**
+SPECIAL NOTE
+To debug and seen functionalities btw admin and student, change line 220 to the ffg
+Admin user: const user = users.filter((user) => user.id === 1)
+Normal user: const user = users.filter((user) => user.id === 2)
+
+This part should be changed totally to get current user from the session. (i.e. logged in user)
+**
+installation instructions
+NOTE
+> dummy server implemented
+> all data is fetched in the App.js file. This should be the only file to be edited to use APIs, etc. 
+> edit only the places with localhost links (lines 46, 67, 92, 112, 145, 154), except where otherwise stated. Please check TODOs and read comments in the code
+> these have been put there to help guide and to help u avoid spending a lot of time understanding the code
+> db.json serves as the dummy data. and a dummy server was set up to use this dummy data.
+> feel free to make changes
+
+1. clone the repo
+2. run npm start
+3. run dummy server (npm run server)
+4. the dummy server must be automatically installed when you run the code, but if it doesn`t (i.e. step 2 does not work), here are the steps:
+	* run npm install json-server
+	* line 22 of package.json file has: "server": "json-server --watch db.json --port 5000". this means the dummy backend is served at port 5000
+	* you can change the port if you want. But dont change anything else. If you want anyother dummy db, u can remove db.json and change it to 
+	* new dummy db (e.g. db2.json. There is no point for this though).
+	* run the server (step 3)
+	* you can visit http://localhost/users to see the users data in the browser

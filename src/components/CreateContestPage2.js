@@ -1,26 +1,29 @@
 import { useState } from 'react'
 import { useNavigate } from "react-router-dom";
 
-const CreateContestPage2 = ({onAdd}) => {
+const CreateContestPage2 = ({user, onAdd}) => {
     const navigate = useNavigate();
 
     const onClick = (e) => {
         navigate(`/create-contest-p3`)
     }
 
-    const [text, setText] = useState("")
+    // get data for onSubmit
+    const userId = user.map(user => {return user.id})[0]
+
+    const [queries, setQuery] = useState("")
     
     const onSubmit = (e) => {
         e.preventDefault()
 
-        if (!text) {
+        if (!queries) {
             alert("Please add a query")
             return 
         }
 
-        onAdd({text})
+        onAdd({queries, userId})
 
-        setText("")
+        setQuery("")
     }
     return (
         <>
@@ -41,8 +44,8 @@ const CreateContestPage2 = ({onAdd}) => {
                           <div className="form-control">
                               <label>Query</label>
                               <textarea style={{border:"solid 1px #ED6630", height:"313px", width: "80.7%"}}
-                              value={text}
-                              onChange={(e) => setText(e.target.value)}
+                              value={queries}
+                              onChange={(e) => setQuery(e.target.value)}
                               >
                               </textarea>
                           </div>

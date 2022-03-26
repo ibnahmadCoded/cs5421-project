@@ -40,4 +40,11 @@ just pushed new updates. I have implemented the ffg:
 	* contests should not show after end date. this is not handled currently due to time constaraints and JS datetime resolution issues.
 > Admin can delete contests now. Only the admin can do this.
 
+(for Backend Team)
+> dummy server implemented
+> all data is fetched in the App.js file. This should be the only file to be edited to use APIs, etc. 
+> edit only the places with localhost links (lines 46, 67, 92, 112, 145, 154), except where otherwise stated. Please check TODOs and read comments in the code
+> these have been put there to help guide and to help u avoid spending a lot of time understanding the code
+> db.json serves as the dummy data. and a dummy server was set up to use this dummy data. 
+
 > others

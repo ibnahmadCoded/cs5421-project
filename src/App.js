@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom"
 import Header from "./components/Header"
 import Footer from "./components/Footer"
@@ -18,171 +18,194 @@ import CreateContestPage3 from "./components/CreateContestPage3"
 
 function App() {
 
-  const users = 
-    [
-        {
-            id: 1,
-            username: "DZ12345AB",
-            userType: "Admin",
-            createdAt: "Mar 10th at 2:30pm",
-        },
-        {
-          id: 2,
-          username: "AF12345CD",
-          userType: "Student",
-          createdAt: "Mar 10th at 2:30pm",
-        },
-        {
-          id: 3,
-          username: "GA12345PO",
-          userType: "Student",
-          createdAt: "Mar 10th at 2:30pm",
-        },
-    ]
+  // *DEFINE ALL DATA* //
+  // Define all data used in the webapp
+  // Note, all data must be imported here and then just passed further into the components
 
-  const [contests, setContests] = useState(
-    [
-        {
-            id: 1,
-            title: "Find Maximum Execution Time",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing. Lorem ipsum dolor sit amet, consectetur adipiscing ",
-            startDate: "Mar 10th at 2:30pm",
-            endDate: "Mar 30th at 2:30pm",
-            maxTries: 1,
-            maxExecutionTime: 200,
-            expectedResult: "abc",
-            tables: ["Table1", "Table2", "Table3"],
-            reminder: false,
-        },
-        {
-            id: 2,
-            title: "Find Minimum Execution Time",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing. Lorem ipsum dolor sit amet, consectetur adipiscing ",
-            startDate: "Mar 10th at 2:30pm",
-            endDate: "Mar 30th at 2:30pm",
-            maxTries: 1,
-            maxExecutionTime: 200,
-            expectedResult: "abc",
-            tables: ["Table11", "Table21", "Table31"],
-            reminder: true,
-        },
-        {
-            id: 3,
-            title: "Find Equal Execution Time",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing. Lorem ipsum dolor sit amet, consectetur adipiscing ",
-            startDate: "Mar 10th at 2:30pm",
-            endDate: "Mar 30th at 2:30pm",
-            maxTries: 1,
-            maxExecutionTime: 200,
-            expectedResult: "abc",
-            tables: ["Tablex", "Tabley", "Tablez"],
-            reminder: true,
-        },
-        {
-          id: 5,
-          title: "Find Nothing",
-          description: "Lorem ipsum dolor sit amet, consectetur adipiscing. Lorem ipsum dolor sit amet, consectetur adipiscing ",
-          startDate: "Mar 10th at 2:30pm",
-          endDate: "Mar 30th at 2:30pm",
-          maxTries: 1,
-          maxExecutionTime: 200,
-          expectedResult: "abc",
-          tables: ["Tablex", "Tabley", "Tablez"],
-          reminder: true,
-        }
-    ]
-)
+  const [users, setUsers] = useState([])
 
-  const [dbqueries, setDbqueries] = useState(
-    [
-        {
-            id: 1,
-            userId: 2,
-            contestId: 1,
-            submissionDate: "Mar 10th at 2:30pm",
-            executionTime: 2,
-            planningTime: 0,
-            result: "abc",
-            query: "SELECT * FROM A",
-        },
-        {
-            id: 2,
-            userId: 2,
-            contestId: 1,
-            submissionDate: "Mar 10th at 2:30pm",
-            executionTime: 3,
-            planningTime: 0,
-            result: "abcd",
-            query: "SELECT * FROM A",
-        },
-        {
-            id: 3,
-            userId: 2,
-            contestId: 3,
-            submissionDate: "Mar 10th at 2:30pm",
-            executionTime: 5,
-            planningTime: 0,
-            result: "abc",
-            query: "SELECT * FROM A",
-        },
-        {
-          id: 4,
-          userId: 3,
-          contestId: 3,
-          submissionDate: "Mar 1th at 2:30pm",
-          executionTime: 1,
-          planningTime: 0,
-          result: "abc",
-          query: "SELECT * FROM A",
-        },
-    ]
-  )
+  const [contests, setContests] = useState([])
 
-  const [tableQueries, setTableQueris] = useState(
-    [
-        {
-            id: 1,
-            userId: 2,
-            queries: [],
-        },
-        {
-            id: 2,
-            userId: 2,
-            queries: [],
-        },
-    ]
-  )
+  const [dbqueries, setDbqueries] = useState([])
 
+  const [tableQueries, setTableQueris] = useState([])
+
+  // *FETCH USERS FROM SERVER* //
+  // Note: after connecting backend, edit only the backend url (i.e. "http://localhost:5000/users")
+  useEffect(() => {
+    const getUsers = async () => {
+      const usersFromServer = await fetchUsers()
+      setUsers(usersFromServer) 
+    }
+
+    getUsers()
+  }, [])
+
+  // Fetch Users
+  const fetchUsers = async () => {
+    const res = await fetch("http://localhost:5000/users")
+    const data = await res.json()
+    
+    return data
+  }
+
+  // ** //
+
+  // *FETCH CONTESTS FROM SERVER* //
+  // Note: after connecting backend, edit only the backend url (i.e. "http://localhost:5000/users")
+  useEffect(() => {
+    const getContests = async () => {
+      const contestsFromServer = await fetchContests()
+      setContests(contestsFromServer) 
+    }
+
+    getContests()
+  }, [])
+
+  // Fetch Contests
+  const fetchContests = async () => {
+    const res = await fetch("http://localhost:5000/contests")
+    const data = await res.json()
+    
+    return data
+  }
+  // ** //
+
+  // *FETCH TABLEQUERIES (queries for creating contest by Admin) FROM SERVER* //
+  // Note: after connecting backend, edit only the backend url (i.e. "http://localhost:5000/users")
   // NOTE: to use the tableQueries table, u fetech each query in the queries array and run. this should be done
   // often as no contest can hold without it. If you think of a better algo for this, the place to edit is CreateContestPage2.js
   // NOTE: when a contest is deleted, get a list of all its tables and run quries to delete those tables from
   // the backend
 
+  useEffect(() => {
+    const getTBQ = async () => {
+      const tbqueriesFromServer = await fetchTBQ()
+      setTableQueris(tbqueriesFromServer) 
+    }
+
+    getTBQ()
+  }, [])
+
+  // Fetch TableQueries
+  const fetchTBQ = async () => {
+    const res = await fetch("http://localhost:5000/tableQueries")
+    const data = await res.json()
+    
+    return data
+  }
+  // ** //
+
+  // *FETCH DBQUERIES (queries submitted by students) FROM SERVER* //
+  // Note: after connecting backend, edit only the backend url (i.e. "http://localhost:5000/users")
+  useEffect(() => {
+    const getDBQ = async () => {
+      const dbqueriesFromServer = await fetchDBQ()
+      setDbqueries(dbqueriesFromServer) 
+    }
+
+    getDBQ()
+  }, [])
+
+  // Fetch DBQueries
+  const fetchDBQ = async () => {
+    const res = await fetch("http://localhost:5000/dbqueries")
+    const data = await res.json()
+    
+    return data
+  }
+  // ** //
+
+// * ALL DB MANIPULATING PROCEDURES AND FUNCTIONS ARE IN THIS BLOCK * //
+// please add fnctions for the user table here
+
 // Add Submitted Query
- const addQuery = (submitted_query) => {
-   const id = Math.floor(Math.random() * 10000) + 1
-   const newQuery = { id, ...submitted_query }
-   setDbqueries([...dbqueries, newQuery])
+ const addQuery = async (submitted_query) => {
+  const res = await fetch("http://localhost:5000/dbqueries", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json"
+    },
+    body: JSON.stringify(submitted_query)
+  })
+
+  const data = await res.json()
+
+  setDbqueries([...dbqueries, data])
+
+  // how table was updated before using dummy backend
+
+  //  const id = Math.floor(Math.random() * 10000) + 1
+  //  const newQuery = { id, ...submitted_query }
+  //  setDbqueries([...dbqueries, newQuery])
  }
 
  // Get queries from createContestPage2 for Contest addition
- const addTableQ = (tableQ) => {
-    const id = Math.floor(Math.random() * 10000) + 1
-    const newTableQ = { id, ...tableQ }
-    setTableQueris([...tableQueries, newTableQ])
+ // save the queries in tableQueries table of DB
+ const addTableQ = async (tableQ) => {
+    const res = await fetch("http://localhost:5000/tableQueries", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify(tableQ)
+    })
+
+    const data = await res.json()
+
+    setTableQueris([...tableQueries, data])
+
+    // how updating db was done before using dummy backend
+
+    // const id = Math.floor(Math.random() * 10000) + 1
+    // const newTableQ = { id, ...tableQ }
+    // setTableQueris([...tableQueries, newTableQ])
 }
 
 // Add contest
-const addContest = (contest) => {
-  const id = Math.floor(Math.random() * 10000) + 1
-  const newContest = { id, ...contest }
-  setContests([...contests, newContest])
+const addContest = async (contest) => {
+  const res = await fetch("http://localhost:5000/contests", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json"
+    },
+    body: JSON.stringify(contest)
+  })
+
+  const data = await res.json()
+
+  setContests([...contests, data])
+
+  // how contests table was updated before using dmmy backend
+
+  // const id = Math.floor(Math.random() * 10000) + 1
+  // const newContest = { id, ...contest }
+  // setContests([...contests, newContest])
 }
 
 // Delete Contest
-const deleteContest = (id) => {
+const deleteContest = async (id) => {
+  // cascading deletion of tables (backend should complete this. I have fetched all tables for the contest about to be deleted)
+  // get tables for the contest  
+  const cont = await fetch(`http://localhost:5000/contests/${id}`)
+  const contest = await cont.json()
+  
+  const tables_to_delete_in_db = contest.tables
+
+  //TODO: get every table in the tables_to_delete_in_db array and run DELETE [table] FROM DB for each table
+  // YOUR CODE HERE
+  
+  // delete contest by ID
+  await fetch(`http://localhost:5000/contests/${id}`, {
+    method: "DELETE"
+  })
+
   setContests(contests.filter((contest) => contest.id !== id))
 }
+
+// ** //
+
+// * OTHER USEFUL FUNCTIONS ARE HERE * //
 
 // Toggle reminder to remind user of close deadlines.
 const toggleReminder = (id) => {
@@ -190,8 +213,11 @@ const toggleReminder = (id) => {
   ? { ...contest, reminder: !contest.reminder } : contest))
 }
 
+// ** //
+
+// TODO: change this to get user_id by session 
 // Get User with id = 1. This should be passed from backend after signIn
-const user = users.filter((user) => user.id === 1)
+const user = users.filter((user) => user.id === 2)
 
 // get current url for the purpose of updating highlights in sidebar
 const currentUrl = "/"+(window.location.href).split("/").slice(-1)
@@ -214,7 +240,7 @@ const currentUrl = "/"+(window.location.href).split("/").slice(-1)
               )}/>
             <Route path="/about" element={<About />} />
             <Route path="/create-contest" element={<CreateContest onAdd={addContest} />} />
-            <Route path="/create-contest-p2" element={<CreateContestPage2 onAdd={addTableQ}/>} />
+            <Route path="/create-contest-p2" element={<CreateContestPage2 user={user} onAdd={addTableQ}/>} />
             <Route path="/create-contest-p3" element={<CreateContestPage3/>} />
             <Route path="/leaderboards" element={<Leaderboards user={user} leaderboards={contests}/>} />
             <Route path="/submissions" element={<Submissions dbqueries={dbqueries} user={user} contests={contests}/>} />
