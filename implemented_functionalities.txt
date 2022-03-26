@@ -1,0 +1,43 @@
+Update: 
+
+just pushed new updates. I have implemented the ffg:
+* all frontend pages except signups signin
+* some logic:
+> a student cant submit a query to a contest if the student`s number of submissions = maximum number of trials for the contest
+> a student cant view the queries of other students
+>only an admin user can see all queries
+> a student can see thier own queries in the leaderboard
+> leaderboard is shown per contest
+> only passed queries are shown in leaderboard
+> a student can view all thier queries whether passed or fail
+> an admin can delete a contest. It should cascade and delete all related queries 
+>  a student can set a reminder on contests they haven't done by double-clicking the contest
+> an admin can create a contest
+> user cannot submit an empty query
+> user cannot query a table that does not exist in the contest
+> a user cannot submit queries that can alter, modify or delete a table (SQL Injection and security)
+> SQL injection keywords considered so far: "CREATE UPDATE DELETE ALTER DROP POST GET MODIFY INSERT ADD CONSTRAINT BACKUP DATABASE COLUMN INDEX TABLE 
+                                             PROCEDURE DEFAULT INTO PRIMARY SET TRUNCATE VALUES"
+> this functionality works whether the query`s SQL keywords are uppercase, lowercase or mixed
+> to update the keywords, please go to line 31 of SubmitQuery.js
+> check for query correctness. a user can only submit correct queries
+> a list of currently accepts keywords and characters are: "SELECT * FROM AND WHERE COUNT ORDER BY MAX MIN ALL ANY AS ASC BETWEEN 
+                                                            CASE CHECK UNIQUE DISTINCT DESC EXEC EXISTS GROUP HAVING IN IS INNER JOIN NOT NULL OR 
+                                                            OUTER RIGHT LEFT LIKE LIMIT ROWNUM TOP UNION = == > < <> ; + - * /"
+> this functionality works whether the query`s SQL keywords are uppercase, lowercase or mixed
+> to update the keywords, please go to line 35 of SubmitQuery.js
+> user cannot ad a query that does not end in in a semi-colon(;)
+> user can only submit correct queries, with the right tables, right keywords, no SQL injection allowed and ending in semi-colon
+> adding query to db
+> contest creation form added
+> adding of contest to db completed
+> only admin can create contest
+> admin cannot add contest without filling all parts of the form
+> a list of tables must be submitted also. the table list must be comma separated. i.e. Table1, Table2, Table3, etc
+> start and end dates added.
+> for future improvements: 
+	* contests should only show on start date. However, they can be added ahead of time currently. 
+	* contests should not show after end date. this is not handled currently due to time constaraints and JS datetime resolution issues.
+> Admin can delete contests now. Only the admin can do this.
+
+> others

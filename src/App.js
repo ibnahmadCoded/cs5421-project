@@ -13,6 +13,8 @@ import Logout from "./components/Logout"
 import SubmitQuery from "./components/SubmitQuery"
 import ViewLeaderboard from "./components/ViewLeaderboard"
 import ViewEvaluationResult from "./components/ViewEvaluationResult"
+import CreateContestPage2 from "./components/CreateContestPage2"
+import CreateContestPage3 from "./components/CreateContestPage3"
 
 function App() {
 
@@ -136,12 +138,46 @@ function App() {
     ]
   )
 
+  const [tableQueries, setTableQueris] = useState(
+    [
+        {
+            id: 1,
+            userId: 2,
+            queries: [],
+        },
+        {
+            id: 2,
+            userId: 2,
+            queries: [],
+        },
+    ]
+  )
+
+  // NOTE: to use the tableQueries table, u fetech each query in the queries array and run. this should be done
+  // often as no contest can hold without it. If you think of a better algo for this, the place to edit is CreateContestPage2.js
+  // NOTE: when a contest is deleted, get a list of all its tables and run quries to delete those tables from
+  // the backend
+
 // Add Submitted Query
  const addQuery = (submitted_query) => {
    const id = Math.floor(Math.random() * 10000) + 1
    const newQuery = { id, ...submitted_query }
    setDbqueries([...dbqueries, newQuery])
  }
+
+ // Get queries from createContestPage2 for Contest addition
+ const addTableQ = (tableQ) => {
+    const id = Math.floor(Math.random() * 10000) + 1
+    const newTableQ = { id, ...tableQ }
+    setTableQueris([...tableQueries, newTableQ])
+}
+
+// Add contest
+const addContest = (contest) => {
+  const id = Math.floor(Math.random() * 10000) + 1
+  const newContest = { id, ...contest }
+  setContests([...contests, newContest])
+}
 
 // Delete Contest
 const deleteContest = (id) => {
@@ -177,7 +213,9 @@ const currentUrl = "/"+(window.location.href).split("/").slice(-1)
                 </>
               )}/>
             <Route path="/about" element={<About />} />
-            <Route path="/create-contest" element={<CreateContest />} />
+            <Route path="/create-contest" element={<CreateContest onAdd={addContest} />} />
+            <Route path="/create-contest-p2" element={<CreateContestPage2 onAdd={addTableQ}/>} />
+            <Route path="/create-contest-p3" element={<CreateContestPage3/>} />
             <Route path="/leaderboards" element={<Leaderboards user={user} leaderboards={contests}/>} />
             <Route path="/submissions" element={<Submissions dbqueries={dbqueries} user={user} contests={contests}/>} />
             <Route path="/settings" element={<Settings />} />

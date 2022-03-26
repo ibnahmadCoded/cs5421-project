@@ -1,55 +1,163 @@
-const CreateContest = () => {
-  return (
-      <>
-        <center>
-            <h2>Create New Contest</h2> 
-            <p style={{fontSize:"small", color: "#ED6630"}}>NOTE: Save Query Button is only to create shecma and tables.</p>
-        </center>
-        <div style={{display:"flex"}}>
-                <form className="add-form">
-                    <div className="form-control">
-                        <label>Title</label>
-                        <input style={{height:"40px", width: "90%"}} type="text" placeholder="Add Contest" />
-                    </div>
-                    <div className="form-control">
-                        <label>Start Date</label>
-                        <input style={{height:"40px", width: "81.5%"}} type="text" placeholder="Add Start Date" />
-                    </div>
-                    <div className="form-control">
-                        <label>End Date</label>
-                        <input style={{height:"40px", width: "83%"}} type="text" placeholder="Add End Date" />
-                    </div>
-                    <div className="form-control">
-                        <label>Maximum Number of Tries</label>
-                        <input style={{height:"40px", width: "58%"}} type="text" placeholder="Add Maximum Number of Tries" />
-                    </div>
-                    <div className="form-control">
-                        <label>Maximum Execution Time</label>
-                        <input style={{height:"40px", width: "59%"}} type="text" placeholder="Add Maximum Execution Time" />
-                    </div>
-                    <div className="form-control">
-                        <label>Expected Query Result</label>
-                        <textarea style={{border:"solid 1px #ED6630", height:"45px", width: "64%"}}></textarea>
-                        {/* <input style={{height:"50px", width: "64%"}} type="textarea" placeholder="Add The Expected Query result" /> */}
-                    </div>
-                    <input type="submit" value="Save Contest" className="btn btn-block" />
-                </form>
-                <form className="add-form">
+import { useState } from 'react'
+import { useNavigate } from "react-router-dom";
+import Button from './Button';
+
+const CreateContest = ({ onAdd }) => {
+    const navigate = useNavigate();
+
+    const onClick = (e) => {
+        navigate(`/create-contest-p2`)
+    }
+
+    // Date().toLocaleString()
+
+    const [title, setTitle] = useState("")
+    const [startDate, setStartDate] = useState("")
+    const [endDate, setEndDate] = useState("")
+    const [maxTries, setMaxTries] = useState("")
+    const [maxExecutionTime, setMaxExecutionTime] = useState("")
+    const [tables, setTables] = useState([])
+    const [description, setDescription] = useState("")
+    const [expectedResult, setExepectedResult] = useState("")
+    const reminder = true
+
+    const onSubmit = (e) => {
+        e.preventDefault()
+
+        if (!title) {
+            alert("Please a title for the contest")
+            return 
+        }
+
+        if (!startDate) {
+            alert("Please select the start date for the contest")
+            return 
+        }
+
+        if (!endDate) {
+            alert("Please select the end date for the contest")
+            return 
+        }
+
+        if (!maxTries) {
+            alert("Please add the maximum number of trials for the contest")
+            return 
+        }
+
+        if (!maxExecutionTime) {
+            alert("Please add the maximum execution time for the contest")
+            return 
+        }
+
+        if (tables.length <= 0) {
+            alert("Please add the list of tables for the contest. The table list must be separated by commas.")
+            return 
+        }
+
+        if (!description) {
+            alert("Please add a description for the contest")
+            return 
+        }
+
+        if (!expectedResult) {
+            alert("Please add the expected result for the contest")
+            return 
+        }
+
+        onAdd({title, startDate, endDate, maxTries, maxExecutionTime, tables, description, expectedResult, reminder})
+
+        setTitle("")
+        setStartDate("")
+        setEndDate("")
+        setMaxTries("")
+        setMaxExecutionTime("")
+        setTables([])
+        setDescription("")
+        setExepectedResult("")
+    }
+
+    return (
+        <>
+            <center>
+                <h2>Create New Contest</h2>
+            </center>
+            {/* <div><Button float="right" color="#104880" text="Next" onClick={() => onClick()}/></div> */}
+            
+            <div style={{display:"flex"}}>
+            
+                    <div className="add-form1">
                         <div className="form-control">
-                            <label>Discription</label>
-                            <textarea style={{border:"solid 1px #ED6630", height:"197.1px", width: "80.7%"}}></textarea>
-                            {/* <input style={{height:"210.1px", width: "80.7%"}} type="text" placeholder="Add Description" /> */}
+                            <label>Title</label>
+                            <input id='contestform' style={{height:"40px", width: "90%"}} type="text" placeholder="Add Contest Title" 
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            />
+                        </div>
+                        <div className="form-control">
+                            <label>Start Date</label>
+                            <input id='contestform' style={{height:"40px", width: "81.5%"}} type="date" placeholder="Add Start Date"
+                            value={startDate}
+                            onChange={(e) => setStartDate(e.target.value)}
+                            />
+                        </div>
+                        <div className="form-control">
+                            <label>End Date</label>
+                            <input id='contestform' style={{height:"40px", width: "83%"}} type="date" placeholder="Add End Date" 
+                            value={endDate}
+                            onChange={(e) => setEndDate(e.target.value)}
+                            />
+                        </div>
+                        <div className="form-control">
+                            <label>Maximum Number of Tries</label>
+                            <input id='contestform' style={{height:"40px", width: "58%"}} type="text" 
+                            placeholder="Add Maximum Number of Tries" 
+                            value={maxTries}
+                            onChange={(e) => setMaxTries(parseInt(e.target.value))}
+                            />
+                        </div>
+                        <div className="form-control">
+                            <label>Maximum Execution Time</label>
+                            <input id='contestform' style={{height:"40px", width: "59%"}} type="text" 
+                            placeholder="Add Maximum Execution Time" 
+                            value={maxExecutionTime}
+                            onChange={(e) => setMaxExecutionTime(parseInt(e.target.value))}
+                            />
                         </div>
                         <div className="form-control">
                             <label>Tables</label>
-                            <textarea style={{border:"solid 1px #ED6630", height:"100px", width: "86.5%"}}></textarea>
-                            {/* <input style={{height:"100px", width: "86.5%"}} type="text" placeholder="Add Tables. Paste Queries and Run" /> */}
+                            <input id='contestform' style={{height:"40px", width: "80%"}} type="text" 
+                            placeholder="Add list of Tables e.g. Table1, Tabel2, Table3" 
+                            value={tables}
+                            onChange={(e) => setTables(e.target.value.split(","))}
+                            />
                         </div>
-                        <input type="submit" value="Run Query" className="btn btn-block" />
-                </form>
-        </div>
-      </>
-  )
+                    </div>
+                    <div className="add-form1">
+                            <div className="form-control">
+                                <label>Discription</label>
+                                <textarea id='contestform' style={{border:"solid 1px #ED6630", height:"210px", width: "80.7%"}}
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                                ></textarea>
+                            </div>
+                            <div className="form-control">
+                                <label>Expected Result</label>
+                                <textarea id='contestform' style={{border:"solid 1px #ED6630", height:"140px", width: "73%"}}
+                                value={expectedResult}
+                                onChange={(e) => setExepectedResult(e.target.value)}
+                                ></textarea>
+                            </div>
+                    </div> 
+                    <Button color="#104880" text="Next" onClick={() => onClick()}/>
+            </div>
+            <div>
+                
+            </div>
+            <form id='contestform' onSubmit={onSubmit}>
+                <input type="submit" value="Save" className="btn btn-block" />
+            </form>
+        </>
+    )
 }
 
 export default CreateContest

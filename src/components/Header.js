@@ -29,7 +29,7 @@ Header.propTypes = {
 
 const headingStyle = {
     color: "#104880",
-    top: "18px",
+    top: "10px",
     left: "10px",
     fontSize: "60px",
     paddingRight: "60px",
@@ -44,7 +44,7 @@ const centerStyle = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingBottom: "50px",
+    paddingBottom: "40px",
   }
 
 export default Header

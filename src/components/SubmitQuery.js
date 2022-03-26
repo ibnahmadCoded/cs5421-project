@@ -74,8 +74,6 @@ const SubmitQuery = ({ onAdd, contests,  user}) => {
         // clear form
         setText("")
     }
-
-    // {console.log(corrQ)}
       
     return (
         <>
