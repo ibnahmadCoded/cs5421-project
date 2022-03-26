@@ -98,7 +98,6 @@ function App() {
             userId: 2,
             contestId: 1,
             submissionDate: "Mar 10th at 2:30pm",
-            tries: 0,
             executionTime: 2,
             planningTime: 0,
             result: "abc",
@@ -109,7 +108,6 @@ function App() {
             userId: 2,
             contestId: 1,
             submissionDate: "Mar 10th at 2:30pm",
-            tries: 0,
             executionTime: 3,
             planningTime: 0,
             result: "abcd",
@@ -120,7 +118,6 @@ function App() {
             userId: 2,
             contestId: 3,
             submissionDate: "Mar 10th at 2:30pm",
-            tries: 0,
             executionTime: 5,
             planningTime: 0,
             result: "abc",
@@ -131,7 +128,6 @@ function App() {
           userId: 3,
           contestId: 3,
           submissionDate: "Mar 1th at 2:30pm",
-          tries: 0,
           executionTime: 1,
           planningTime: 0,
           result: "abc",
@@ -140,13 +136,17 @@ function App() {
     ]
   )
 
+// Add Submitted Query
+ const addQuery = (submitted_query) => {
+   const id = Math.floor(Math.random() * 10000) + 1
+   const newQuery = { id, ...submitted_query }
+   setDbqueries([...dbqueries, newQuery])
+ }
+
 // Delete Contest
 const deleteContest = (id) => {
   setContests(contests.filter((contest) => contest.id !== id))
 }
-
-
-
 
 // Toggle reminder to remind user of close deadlines.
 const toggleReminder = (id) => {
@@ -155,7 +155,7 @@ const toggleReminder = (id) => {
 }
 
 // Get User with id = 1. This should be passed from backend after signIn
-const user = users.filter((user) => user.id === 2)
+const user = users.filter((user) => user.id === 1)
 
 // get current url for the purpose of updating highlights in sidebar
 const currentUrl = "/"+(window.location.href).split("/").slice(-1)
@@ -181,9 +181,9 @@ const currentUrl = "/"+(window.location.href).split("/").slice(-1)
             <Route path="/leaderboards" element={<Leaderboards user={user} leaderboards={contests}/>} />
             <Route path="/submissions" element={<Submissions dbqueries={dbqueries} user={user} contests={contests}/>} />
             <Route path="/settings" element={<Settings />} />
-            <Route path="/logout" element={<Logout />} />
+            <Route path="/logout" element={<Logout user={user}/>} />
             <Route path="/view-leaderboard/:id" element={<ViewLeaderboard users={users} user={user} contests={contests} dbqueries={dbqueries}/>} />
-            <Route path="/submit-query/:id" element={<SubmitQuery user={user} contests={contests} dbqueries={dbqueries}/>} />
+            <Route path="/submit-query/:id" element={<SubmitQuery onAdd={addQuery} user={user} contests={contests}/>} />
             <Route path="/view-eval-result/:id" element={<ViewEvaluationResult user={user} contests={contests} dbqueries={dbqueries}/>} />
           </Routes>
           <Footer user={user} />

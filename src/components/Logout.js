@@ -1,4 +1,4 @@
-const Logout = () => {
+const Logout = ({user}) => {
   return (
     <div>
         You are logged out
