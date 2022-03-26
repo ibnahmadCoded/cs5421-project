@@ -2,6 +2,11 @@ TODO (backend):
 App.js (line 150)
 App.js (line 218)
 
+all queries are submitted to dbqueries
+fetch them from there and run evaluation
+after evaluation do the ffg:
+	update evaluation time, planning time for the queryin dbqueries
+
 **
 SPECIAL NOTE
 To debug and seen functionalities btw admin and student, change line 220 to the ffg
