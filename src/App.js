@@ -45,6 +45,10 @@ function App() {
     getUserInfo(JSON.parse(localStorage.getItem('profile')))
   }, [])
 
+  useEffect(() => {
+    setIsAuth(userInfo === null ? false : true)
+  }, [])
+
   // *FETCH USERS FROM SERVER* //
   // Note: after connecting backend, edit only the backend url (i.e. "http://localhost:5000/users")
   useEffect(() => {
@@ -241,6 +245,11 @@ const changeCurrentPath = async (path) => {
   setCurrentPath(path);
 }
 
+const changeIsAuth = (value) => {
+  setIsAuth(value)
+}
+
+console.log(currentPath)
 const getUserInfo = async (userInfo) => {
   setUserInfo(userInfo)
   setIsAuth(userInfo === null ? false : true)
@@ -263,7 +272,7 @@ const getUserInfo = async (userInfo) => {
                     ("No Contests Available")}
                 </>
               )}/>
-            <Route path="/login" element={<Authentic changeUserInfo={getUserInfo} changePath={changeCurrentPath} />}></Route>
+            <Route path="/login" element={<Authentic isAuth={isAuth} changeIsAuth={changeIsAuth} changeUserInfo={getUserInfo} changePath={changeCurrentPath} />}></Route>
             <Route path="/about" element={<About />} />
             <Route path="/create-contest" element={<CreateContest onAdd={addContest} />} />
             <Route path="/create-contest-p2" element={<CreateContestPage2 user={user} onAdd={addTableQ}/>} />

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Input, Form, Select, Card } from "antd";
 import {UserOutlined, LockOutlined} from "@ant-design/icons"
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "../../login.css";
 
 const { Option } = Select;
@@ -37,7 +37,7 @@ const tailFormItemLayout = {
 };
 
 
-const Authentic = ({changeUserInfo, changePath}) => {
+const Authentic = ({isAuth, changeIsAuth, changeUserInfo, changePath}) => {
     const [form] = Form.useForm()
     const [isLogin, setIsLogin] = useState(true)
     const [userType, setUserType] = useState("user")
@@ -46,6 +46,16 @@ const Authentic = ({changeUserInfo, changePath}) => {
     useEffect(() => {
         changePath(window.location.pathname)
       }, [])
+
+    useEffect(() => {
+        if(isAuth === true) {
+            changePath("/")
+            navigate("/")
+        } else {
+            changePath("/login")
+            navigate("/login")
+        }
+    }, [isAuth, window.location.pathname])
 
     const onModeSwitch = () => {
         form.resetFields();
