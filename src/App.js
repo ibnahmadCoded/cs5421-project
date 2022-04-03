@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import {BrowserRouter as Router, Routes, Route} from "react-router-dom"
+import {BrowserRouter as Router, Routes, Route, useLocation, useNavigate} from "react-router-dom"
 import Header from "./components/Header"
 import Footer from "./components/Footer"
 import Contests from './components/Contests'
@@ -15,6 +15,7 @@ import ViewLeaderboard from "./components/ViewLeaderboard"
 import ViewEvaluationResult from "./components/ViewEvaluationResult"
 import CreateContestPage2 from "./components/CreateContestPage2"
 import CreateContestPage3 from "./components/CreateContestPage3"
+import Authentic from "./components/authentic/Authentic"
 
 function App() {
 
@@ -24,11 +25,25 @@ function App() {
 
   const [users, setUsers] = useState([])
 
+  const [userInfo, setUserInfo] = useState(JSON.parse(localStorage.getItem('profile')))
+
+  const [isAuth, setIsAuth] = useState(userInfo === null ? false : true)
+
   const [contests, setContests] = useState([])
 
   const [dbqueries, setDbqueries] = useState([])
 
   const [tableQueries, setTableQueris] = useState([])
+
+  const [currentPath, setCurrentPath] = useState(window.location.pathname)
+
+  useEffect(() => {
+    setCurrentPath(window.location.pathname)
+  },[])
+
+  useEffect(() => {
+    getUserInfo(JSON.parse(localStorage.getItem('profile')))
+  }, [])
 
   // *FETCH USERS FROM SERVER* //
   // Note: after connecting backend, edit only the backend url (i.e. "http://localhost:5000/users")
@@ -222,12 +237,22 @@ const user = users.filter((user) => user.id === 2)
 // get current url for the purpose of updating highlights in sidebar
 const currentUrl = "/"+(window.location.href).split("/").slice(-1)
 
+const changeCurrentPath = async (path) => {
+  setCurrentPath(path);
+}
+
+const getUserInfo = async (userInfo) => {
+  setUserInfo(userInfo)
+  setIsAuth(userInfo === null ? false : true)
+}
+
   return (
+  
     <Router>
-      <div className="flex">
-        <SideBar user={user} url={currentUrl} />
+      <div className={currentPath === "/login" ? "login_flex" : "flex"}>
+        <SideBar user={user} url={currentUrl}/>
         <div className="p-7 text-2xl font-semibold flex-1 h-screen">
-        <Header />
+        <Header userInfo = {userInfo} changeUserInfo = {getUserInfo} isAuth = {isAuth} changePath = {changeCurrentPath}/>
           <Routes>
             <Route path="/" exact element={ 
               (
@@ -238,6 +263,7 @@ const currentUrl = "/"+(window.location.href).split("/").slice(-1)
                     ("No Contests Available")}
                 </>
               )}/>
+            <Route path="/login" element={<Authentic changeUserInfo={getUserInfo} changePath={changeCurrentPath} />}></Route>
             <Route path="/about" element={<About />} />
             <Route path="/create-contest" element={<CreateContest onAdd={addContest} />} />
             <Route path="/create-contest-p2" element={<CreateContestPage2 user={user} onAdd={addTableQ}/>} />
