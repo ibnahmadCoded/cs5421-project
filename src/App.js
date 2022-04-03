@@ -217,7 +217,7 @@ const toggleReminder = (id) => {
 
 // TODO: change this to get user_id by session 
 // Get User with id = 1. This should be passed from backend after signIn
-const user = users.filter((user) => user.id === 2)
+const user = users.filter((user) => user.id === 1)
 
 // get current url for the purpose of updating highlights in sidebar
 const currentUrl = "/"+(window.location.href).split("/").slice(-1)
