@@ -54,7 +54,48 @@ const Authentic = ({changeUserInfo, changePath}) => {
     }
 
     /*
-        TODO: backend return token and other info, store the info in the 
+        TODO: backend return token and other info, store the info in the localstorage
+        For example 
+        onFinish = async(values) => {
+            if (userType === "user") {
+                if(isLogin) {
+                    const res = await api.xxxxxx(login api)
+                    if (res.status === statusnumber means success) {
+                        localStorage.setItem('profile', res.data); 
+                        (   
+                            data include username and token 
+                            please don't just redirect it will destory the css as the css and ui I used is
+                            different with aliyu. I need to control the css change by login component, 
+                            so please just return the status value and the data then use the frontend to implement
+                            jumping to the home page.
+                        )
+                        changeUserInfo(JSON.parse(localStorage.getItem('profile')))
+                    
+                        changePath("/")
+                        navigate("/")
+                    } else {
+                        output error information by using message or modal
+                    }
+                } else {
+                    const res = await api.xxxxxx(register api)
+                    if (res.status === statusnumber means success) {
+                        output the successfully information and return to login
+                        setIsLogin(true)
+                        form.resetFields();
+                    } else {
+                        output the error information by using message or modal
+                    }
+                }
+            } else if (userType === "admin") {
+                if(isLogin) {
+                    changePath("/")
+                    navigate("/")
+                } else {
+                    setIsLogin(true)
+                    form.resetFields();
+                }
+            }
+        }
     */
     const onFinish = (values) => {
         console.log('Received values of form: ', values);
