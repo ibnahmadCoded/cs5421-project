@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Input, Form, Select, Card } from "antd";
 import {UserOutlined, LockOutlined} from "@ant-design/icons"
 import { useLocation, useNavigate } from "react-router-dom";
-import * as api from '../api/index.js';
+import * as api from "../../api/index.js";
 import "../../login.css";
 
 const { Option } = Select;
