@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
+@import '~antd/dist/antd.css';
 
 @tailwind base;
 @tailwind components;
@@ -16,6 +17,76 @@ html {
 
 body {
   font-family: 'Poppins', sans-serif;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  /*background-image: linear-gradient(90deg,#106EBE, #106EBE 33%,white 33%, white 100%); */
+}
+
+.login_content {
+
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+}
+
+.login_content .left_pane {
+  width: 33%;
+  height: 100%;
+  display: inline-flex;
+  background-color: #106EBE ;
+}
+
+.login_content .right_pane {
+  width: 67%;
+  height: 100%;
+  display: inline-flex;
+  background-color: white;
+}
+
+.login_container {
+	width: 50%;
+	display: inline-block;
+	text-align: left;
+	font-size: 16px;
+}
+
+.login_container h4 {
+	margin: 0;
+}
+
+.register_container {
+	width: 50%;
+	display: inline-block;
+	text-align: right;
+	font-size: 16px;
+}
+
+#login_form {
+	width: 470px;
+	margin: auto;
+	align-items: center;
+}
+
+#login_form .form_header {
+	width: 100%;
+	display: flex;
+  line-height: 56px;
+  height: 56px;
+}
+
+.login_logo {
+  padding: 0 calc(50% - 65px); 
+}
+
+.login_logo .logo_icon {
+  height: 60px;
+  background: no-repeat; 
+  background-image:url(./assets/logo.png);
+  background-size: contain;
 }
 
 .container {
