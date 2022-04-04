@@ -2,21 +2,46 @@
   "users": [
     {
       "id": 1,
-      "username": "DZ12345AB",
+      "NUSid": "DZ12345AB",
       "userType": "Admin",
-      "createdAt": "Mar 10th at 2:30pm"
+      "createdAt": "Mar 10th at 2:30pm",
+      "pwd": "av"
     },
     {
       "id": 2,
       "username": "AF12345CD",
       "userType": "Student",
-      "createdAt": "Mar 10th at 2:30pm"
+      "createdAt": "Mar 10th at 2:30pm",
+      "pwd": "av"
     },
     {
       "id": 3,
       "username": "GA12345PO",
       "userType": "Student",
       "createdAt": "Mar 10th at 2:30pm"
+    },
+    {
+      "userType": "Student",
+      "nm": "Axe",
+      "email": "a@u.nus.edu",
+      "id": "A0000000B",
+      "pwd": "abc"
+    },
+    {
+      "userType": "Student",
+      "name": "asd",
+      "email": "bc@nus.edu",
+      "NUSid": "A0000000D",
+      "pwd": "av",
+      "id": 5
+    },
+    {
+      "userType": "Admin",
+      "name": "asd",
+      "email": "abc@nus.edu",
+      "NUSid": "A0000000F",
+      "pwd": "ab",
+      "id": 6
     }
   ],
   "contests": [

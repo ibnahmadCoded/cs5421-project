@@ -15,6 +15,8 @@ import ViewLeaderboard from "./components/ViewLeaderboard"
 import ViewEvaluationResult from "./components/ViewEvaluationResult"
 import CreateContestPage2 from "./components/CreateContestPage2"
 import CreateContestPage3 from "./components/CreateContestPage3"
+import Login from "./components/Login"
+import Signup from "./components/Signup"
 
 function App() {
 
@@ -216,42 +218,93 @@ const toggleReminder = (id) => {
 // ** //
 
 // TODO: change this to get user_id by session 
+// Add new user to DB
+const addUser = async (newUser) => {
+  const res = await fetch("http://localhost:5000/users", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json"
+    },
+    body: JSON.stringify(newUser)
+  })
+
+  const data = await res.json()
+
+  setUsers([...users, data])
+
+  // how updating db was done before using dummy backend
+
+  // const id = Math.floor(Math.random() * 10000) + 1
+  // const newTableQ = { id, ...tableQ }
+  // setTableQueris([...tableQueries, newTableQ])
+}
+
 // Get User with id = 1. This should be passed from backend after signIn
 const user = users.filter((user) => user.id === 1)
+// console.log(user)
 
 // get current url for the purpose of updating highlights in sidebar
 const currentUrl = "/"+(window.location.href).split("/").slice(-1)
 
+// Login
+const isLoggedIn = false
+
+// const [user, setUser] = useState(0)
+// const [isLoggedIn, setIsLoggedIn] = useState(false)
+ const newLogin =  async(loginData) => {
+//   // const isLoggedIn = true
+//   // setUser(users.filter((use) => use.NUSid === loginData.loginId))
+//   // setIsLoggedIn(true)
+//   // users.filter((use) => use.NUSid === loginId)
+//   // console.log(loginData)
+//   // console.log(users.filter((use) => use.NUSid === loginData.loginId).map(u => {return u.id})[0])
+  
+   }
+
+  
+
   return (
     <Router>
       <div className="flex">
-        <SideBar user={user} url={currentUrl} />
-        <div className="p-7 text-2xl font-semibold flex-1 h-screen">
-        <Header />
-          <Routes>
-            <Route path="/" exact element={ 
-              (
-                <>
-                  {contests.length > 0 ? (
-                    <Contests dbqueries={dbqueries} user={user} contests={contests} onDelete=
-                    {deleteContest} onToggle={toggleReminder}/>) : 
-                    ("No Contests Available")}
-                </>
-              )}/>
-            <Route path="/about" element={<About />} />
-            <Route path="/create-contest" element={<CreateContest onAdd={addContest} />} />
-            <Route path="/create-contest-p2" element={<CreateContestPage2 user={user} onAdd={addTableQ}/>} />
-            <Route path="/create-contest-p3" element={<CreateContestPage3/>} />
-            <Route path="/leaderboards" element={<Leaderboards user={user} leaderboards={contests}/>} />
-            <Route path="/submissions" element={<Submissions dbqueries={dbqueries} user={user} contests={contests}/>} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/logout" element={<Logout user={user}/>} />
-            <Route path="/view-leaderboard/:id" element={<ViewLeaderboard users={users} user={user} contests={contests} dbqueries={dbqueries}/>} />
-            <Route path="/submit-query/:id" element={<SubmitQuery onAdd={addQuery} user={user} contests={contests}/>} />
-            <Route path="/view-eval-result/:id" element={<ViewEvaluationResult user={user} contests={contests} dbqueries={dbqueries}/>} />
-          </Routes>
-          <Footer user={user} />
-      </div>
+        {isLoggedIn ?  //is user logged in? show everthing, else show login page
+        <>
+          <SideBar user={user} url={currentUrl} />
+          <div className="p-7 text-2xl font-semibold flex-1 h-screen">
+          <Header />
+            <Routes>
+              <Route path="/" exact element={ 
+                (
+                  <>
+                    {contests.length > 0 ? (
+                      <Contests dbqueries={dbqueries} user={user} contests={contests} onDelete=
+                      {deleteContest} onToggle={toggleReminder}/>) : 
+                      ("No Contests Available")}
+                  </>
+                )}/>
+              <Route path="/about" element={<About />} />
+              <Route path="/create-contest" element={<CreateContest onAdd={addContest} />} />
+              <Route path="/create-contest-p2" element={<CreateContestPage2 user={user} onAdd={addTableQ}/>} />
+              <Route path="/create-contest-p3" element={<CreateContestPage3/>} />
+              <Route path="/leaderboards" element={<Leaderboards user={user} leaderboards={contests}/>} />
+              <Route path="/submissions" element={<Submissions dbqueries={dbqueries} user={user} contests={contests}/>} />
+              <Route path="/settings" element={<Settings />} />
+              <Route path="/logout" element={<Logout user={user}/>} />
+              <Route path="/view-leaderboard/:id" element={<ViewLeaderboard users={users} user={user} contests={contests} dbqueries={dbqueries}/>} />
+              <Route path="/submit-query/:id" element={<SubmitQuery onAdd={addQuery} user={user} contests={contests}/>} />
+              <Route path="/view-eval-result/:id" element={<ViewEvaluationResult user={user} contests={contests} dbqueries={dbqueries}/>} />
+              {/* <Route path="/login" element={<Login onAdd={newLogin} />} />
+              <Route path="/signup" element={<Signup onAdd={addUser} users={users} />} /> */}
+            </Routes>
+            <Footer user={user} />
+        </div> 
+        </> 
+        : 
+        <Routes>
+          
+          <Route path="/" element={<Login onAdd={newLogin} users={users} />} />
+          <Route path="/signup" element={<Signup onAdd={addUser} users={users} />} />
+        </Routes>
+        }
     </div>
     </Router>
   );

@@ -88,6 +88,38 @@ body {
   height: 416px;
 }
 
+.signin-form {
+  
+  position: absolute;
+  width: 400px;
+  /* height: 200px; */
+  z-index: 15;
+  top: 50%;
+  left: 50%;
+  margin: -100px 0 0 -150px;
+  border: solid 1px #ED6630;
+  
+}
+
+.btn-sub {
+  display: block;
+  width: 40%;
+  background-color: #ED6630;
+}
+
+.signup-form {
+  
+  position: absolute;
+  width: 400px;
+  /* height: 200px; */
+  z-index: 15;
+  top: 50%;
+  left: 50%;
+  margin: -100px 0 0 -150px;
+  border: solid 1px #ED6630;
+  
+}
+
 .add-form1 {
   margin-bottom: 40px;
   width: 45%;
