@@ -1,3 +1,66 @@
+.login_content {
+
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+}
+
+.login_content .left_pane {
+  width: 33%;
+  height: 100%;
+  display: inline-flex;
+  background-color: #106EBE ;
+}
+
+.login_content .right_pane {
+  width: 67%;
+  height: 100%;
+  display: inline-flex;
+  background-color: white;
+}
+
+.login_container {
+	width: 50%;
+	display: inline-block;
+	text-align: left;
+	font-size: 16px;
+}
+
+.login_container h4 {
+	margin: 0;
+}
+
+.register_container {
+	width: 50%;
+	display: inline-block;
+	text-align: right;
+	font-size: 16px;
+}
+
+#login_form {
+	width: 470px;
+	margin: auto;
+	align-items: center;
+}
+
+#login_form .form_header {
+	width: 100%;
+	display: flex;
+  line-height: 56px;
+  height: 56px;
+}
+
+.login_logo {
+  padding: 0 calc(50% - 65px); 
+}
+
+.login_logo .logo_icon {
+  height: 60px;
+  background: no-repeat; 
+  background-image:url(./assets/logo.png);
+  background-size: contain;
+}
+
 #root .login_flex > div .pt-8 {
 	display: none !important;
 }
