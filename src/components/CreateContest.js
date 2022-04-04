@@ -14,11 +14,14 @@ const CreateContest = ({ onAdd }) => {
     const [title, setTitle] = useState("")
     const [startDate, setStartDate] = useState("")
     const [endDate, setEndDate] = useState("")
-    const [maxTries, setMaxTries] = useState("")
-    const [maxExecutionTime, setMaxExecutionTime] = useState("")
+    // const [maxTries, setMaxTries] = useState("")
+    // const [maxExecutionTime, setMaxExecutionTime] = useState("")
+    
+    
     const [tables, setTables] = useState([])
     const [description, setDescription] = useState("")
-    const [expectedResult, setExepectedResult] = useState("")
+    // const [expectedResult, setExepectedResult] = useState("")
+    
     const reminder = true
 
     const onSubmit = (e) => {
@@ -39,15 +42,15 @@ const CreateContest = ({ onAdd }) => {
             return 
         }
 
-        if (!maxTries) {
-            alert("Please add the maximum number of trials for the contest")
-            return 
-        }
+        // if (!maxTries) {
+        //     alert("Please add the maximum number of trials for the contest")
+        //     return 
+        // }
 
-        if (!maxExecutionTime) {
-            alert("Please add the maximum execution time for the contest")
-            return 
-        }
+        // if (!maxExecutionTime) {
+        //     alert("Please add the maximum execution time for the contest")
+        //     return 
+        // }
 
         if (tables.length <= 0) {
             alert("Please add the list of tables for the contest. The table list must be separated by commas.")
@@ -59,21 +62,24 @@ const CreateContest = ({ onAdd }) => {
             return 
         }
 
-        if (!expectedResult) {
-            alert("Please add the expected result for the contest")
-            return 
-        }
+        // if (!expectedResult) {
+        //     alert("Please add the expected result for the contest")
+        //     return 
+        // }
+        const maxTries = 1
+        const maxExecutionTime = 1000000
+        const expectedResult = ""
 
         onAdd({title, startDate, endDate, maxTries, maxExecutionTime, tables, description, expectedResult, reminder})
 
         setTitle("")
         setStartDate("")
         setEndDate("")
-        setMaxTries("")
-        setMaxExecutionTime("")
+        // setMaxTries("")
+        // setMaxExecutionTime("")
         setTables([])
         setDescription("")
-        setExepectedResult("")
+        // setExepectedResult("")
     }
 
     return (
@@ -107,7 +113,7 @@ const CreateContest = ({ onAdd }) => {
                             onChange={(e) => setEndDate(e.target.value)}
                             />
                         </div>
-                        <div className="form-control">
+                        {/* <div className="form-control">
                             <label>Maximum Number of Tries</label>
                             <input id='contestform' style={{height:"40px", width: "58%"}} type="text" 
                             placeholder="Add Maximum Number of Tries" 
@@ -122,7 +128,7 @@ const CreateContest = ({ onAdd }) => {
                             value={maxExecutionTime}
                             onChange={(e) => setMaxExecutionTime(parseInt(e.target.value))}
                             />
-                        </div>
+                        </div> */}
                         <div className="form-control">
                             <label>Tables</label>
                             <input id='contestform' style={{height:"40px", width: "80%"}} type="text" 
@@ -135,18 +141,18 @@ const CreateContest = ({ onAdd }) => {
                     <div className="add-form1">
                             <div className="form-control">
                                 <label>Discription</label>
-                                <textarea id='contestform' style={{border:"solid 1px #ED6630", height:"210px", width: "80.7%"}}
+                                <textarea id='contestform' style={{border:"solid 1px #ED6630", height:"330px", width: "80.7%"}}
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
                                 ></textarea>
                             </div>
-                            <div className="form-control">
+                            {/* <div className="form-control">
                                 <label>Expected Result</label>
                                 <textarea id='contestform' style={{border:"solid 1px #ED6630", height:"140px", width: "73%"}}
                                 value={expectedResult}
                                 onChange={(e) => setExepectedResult(e.target.value)}
                                 ></textarea>
-                            </div>
+                            </div> */}
                     </div> 
                     <Button color="#104880" text="Next" onClick={() => onClick()}/>
             </div>
