@@ -1,26 +1,26 @@
 import { useMatch} from 'react-router-dom';
 
-const ViewEvaluationResult = ({user, contests, dbqueries}) => {
+const ViewEvaluationResult = ({user, submissions, contests, dbqueries}) => {
     const {
         params: { id },
       } = useMatch('/view-eval-result/:id');
 
     // Get Query by ID from the query`s Id
-    const query_ = dbqueries.filter((dbq) => dbq.id === parseInt(id))
+    const query_ = submissions.filter((dbq) => dbq.id === id)
+    console.log(query_)
 
     // get contest by using query_
-    const contest = contests.filter((cont) => cont.id === 
-    query_.map(query_ => {return query_.contestId})[0])
+    // const contest = contests.filter((cont) => cont.id === 
+    // query_.map(query_ => {return query_.contestId})[0])
 
     // Is the evaluation result pass or fail??
-    const eval_result = contest.map(contest => {return contest.expectedResult})[0] === 
-    query_.map(query_ => {return query_.result})[0]
+    const eval_result = query_.map(query_ => {return query_.queryResult === "correct"})[0]
 
     // get contest title
-    const title = contest.map(contest => {return contest.title})[0]
+    const title = query_.map(query_ => {return query_.competitionName})[0]
 
     // get query submission date
-    const sub_date = query_.map(query_ => {return query_.submissionDate})[0]
+    const sub_date = query_.map(query_ => {return query_.createTime})[0]
 
     // get execution time
     const exec_time = query_.map(query_ => {return query_.executionTime})[0]
@@ -29,7 +29,7 @@ const ViewEvaluationResult = ({user, contests, dbqueries}) => {
     const plan_time = query_.map(query_ => {return query_.planningTime})[0]
 
     // get query
-    const query = query_.map(query_ => {return query_.query})[0]
+    const query = query_.map(query_ => {return query_.content})[0]
 
     return (
         <div>
