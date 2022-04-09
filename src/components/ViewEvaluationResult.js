@@ -1,10 +1,5 @@
-import { useMatch} from 'react-router-dom';
-
-const ViewEvaluationResult = ({user, submissions, contests, dbqueries}) => {
-    const {
-        params: { id },
-      } = useMatch('/view-eval-result/:id');
-
+const ViewEvaluationResult = () => {
+    
     const leaderboardQ = JSON.parse(localStorage.getItem('leaderboardQ'))
 
     const query_ = leaderboardQ

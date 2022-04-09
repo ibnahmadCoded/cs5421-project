@@ -2,12 +2,12 @@ import { useState, useEffect } from "react"
 import { useMatch} from 'react-router-dom';
 import ViewLeaderboardMember from "./ViewLeaderboardMember"
 
-const ViewLeaderboard = ({ contests,   user, dbqueries, users }) => {
+const ViewLeaderboard = ({ contests,   user, users }) => {
     const {
         params: { id },
       } = useMatch('/view-leaderboard/:id');
 
-    //   console.log(submissions)
+    
     // get contest by ID
     const contest = contests.filter((contest) => contest.id === id)
     const [corr_queries, setCorr_queries] = useState([])
@@ -47,16 +47,9 @@ const ViewLeaderboard = ({ contests,   user, dbqueries, users }) => {
             data.sort((a, b) => (a.executionTime < b.executionTime) ? -1 : 1)
             return data
         }
-
-        
-
-    // console.log(corr_queries)
-    // sort corr_queries. order by ascending
-    // corr_queries.sort((a, b) => (a.executionTime < b.executionTime) ? 1 : -1)
     
     // get contes`s title
     const contest_title = contest.map(contest => {return contest.title})[0]
-    // console.log(user)
 
     return (
         <>
@@ -66,16 +59,16 @@ const ViewLeaderboard = ({ contests,   user, dbqueries, users }) => {
             </center>
             {user?.usertype === "admin" ?
                 <p>
-                    <span style={{fontSize:"15px", paddingLeft: "25px", color: "#ED6630"}}>Student`s ID</span> 
+                    <span style={{fontSize:"15px", paddingLeft: "65px", color: "#ED6630"}}>Student`s ID</span> 
                     <span style={{paddingLeft: "297px"}} className="leaderboardP4">Execution Time</span> 
-                    <span style={{paddingLeft: "193px"}} className="leaderboardP4">Planning Time</span>
+                    <span style={{paddingLeft: "245px"}} className="leaderboardP4">Planning Time</span>
                     <span className="leaderboardP4"></span>
                 </p>
                 :
                 <p>
-                    <span style={{fontSize:"15px", paddingLeft: "25px", color: "#ED6630"}}>Student`s ID</span> 
+                    <span style={{fontSize:"15px", paddingLeft: "65px", color: "#ED6630"}}>Student`s ID</span> 
                     <span style={{paddingLeft: "297px"}} className="leaderboardP4">Execution Time</span> 
-                    <span style={{paddingLeft: "193px"}} className="leaderboardP4">Planning Time</span>
+                    <span style={{paddingLeft: "245px"}} className="leaderboardP4">Planning Time</span>
                     <span className="leaderboardP4"></span>
                 </p>
             }

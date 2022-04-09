@@ -1,3 +1,4 @@
+import Moment from "moment"
 const ViewSubmissionResult = () => {
 
     const submissionQ = JSON.parse(localStorage.getItem('submissionQ'))
@@ -35,7 +36,9 @@ const ViewSubmissionResult = () => {
             <p style={{fontSize:"15px", color: "#ED6630", paddingBottom:"15px"}}>{query}</p>
 
             <h3 style={{fontSize:"25px", color: "#104880"}}>Submission Date</h3>
-            <p style={{fontSize:"15px", color: "#ED6630",  paddingBottom:"15px"}}>{sub_date}</p>
+            <p style={{fontSize:"15px", color: "#ED6630",  paddingBottom:"15px"}}>
+                {Moment(sub_date.endDate).format("MMM Do YYYY, h:mm:ss a")}
+                </p>
 
             <h3 style={{fontSize:"25px", color: "#104880"}}>Evaluation Result</h3>
             <>

@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import Button from './Button'
+import Moment from "moment"
 
 const Leaderboard = ({ leaderboard, user }) => {
     const navigate = useNavigate();
@@ -10,12 +11,12 @@ const Leaderboard = ({ leaderboard, user }) => {
 
     return (
         <div className={`leaderboard`}>
-            <h3>
+            <h3 style={{color:"#104880"}}>
                 {leaderboard.title} {user?.usertype === "admin" ? 
                 <Button color="#ED6630" text="View" onClick={() => Click(leaderboard.id)}/> : 
                 <Button color="#ED6630" text="View" onClick={() => Click(leaderboard.id)}/>} 
             </h3>
-            <p style={{color:"#ED6630"}}>{leaderboard.endDate}</p>
+            <p style={{fontSize:"15px", color:"#ED6630"}}>Submitted on {Moment(leaderboard.endDate).format("MMM Do YYYY, h:mm:ss a")}</p>
         </div>
     )
 }

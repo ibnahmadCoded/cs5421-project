@@ -8,9 +8,6 @@ const ViewLeaderboardMember = ({ corr_query, user  }) => {
         navigate(`/view-eval-result/${id}`)
     }
 
-    // Get User by ID from the query`s userId
-    // const user_ = users.filter((use) => use.id === corr_query.userId)
-
     // save the query in local storage to use in view evaluation page
     localStorage.setItem('leaderboardQ', JSON.stringify(corr_query));
 
@@ -20,20 +17,20 @@ const ViewLeaderboardMember = ({ corr_query, user  }) => {
                 {user?.usertype === "admin" ? 
                     <p>
                         <span>{corr_query.creatorId}</span>
-                        <span className="leaderboardP">{corr_query.executionTime}</span> 
-                        <span className="leaderboardP">{corr_query.planningTime}</span> 
-                        <span className="leaderboardP">
+                        <span className="leaderboardP1">{corr_query.executionTime}</span> 
+                        <span className="leaderboardP1">{corr_query.planningTime}</span> 
+                        <span style={{paddingLeft:"150px"}}>
                             <Button color="#ED6630" text="View" onClick={() => onClick(corr_query.id)}/>
                         </span>
                     </p>
                     : 
                     <p>
-                        <span>{corr_query.creatorId}</span> 
+                        <span style={{paddingBottom:"0px"}}>{corr_query.creatorId}</span> 
                         <span className="leaderboardP1">{corr_query.executionTime}</span> 
                         <span className="leaderboardP1">{corr_query.planningTime}</span>
                         {user?.useremail === 
                         corr_query.creatorId ? 
-                        <span className="leaderboardP1">
+                        <span style={{paddingLeft:"150px"}}>
                             <Button color="#ED6630" text="View" onClick={() => onClick(corr_query.id)}/>
                         </span>
                         : ""}

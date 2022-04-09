@@ -91,36 +91,12 @@ function App() {
     getContests()
   }, [])
 
-  // http://localhost:4000/api/getApi/getCompetitionsAll
-  // http://localhost:5000/contests
   // Fetch Contests
   const fetchContests = async () => {
     const res = await fetch("http://localhost:4000/api/getApi/getCompetitionsAll")
     const data = await res.json()
     return data.eventArr
   }
-  // ** //
-
-    // *FETCH SUBMISSIONS FOR A CONTEST FROM SERVER* //
-  // useEffect(() => {
-  //   const getCompetitionSubmissions = async () => {
-  //     const submissionsFromServer = await fetchCompetitionSubmissions()
-  //     setCompetitionSubmissions(submissionsFromServer) 
-  //   }
-
-  //   getCompetitionSubmissions()
-  // }, [])
-
-  // // http://localhost:4000/api/getApi/getCompetitionsAll
-  // // http://localhost:5000/contests
-  // // Fetch Contests
-  // const fetchCompetitionSubmissions = async () => {
-  //   const comp = "real"
-  //   const res = await fetch(`http://localhost:4000/api/getApi/competition/${comp}`)
-  //   const data = await res.json()
-  //   return data
-  // }
-  // // ** //
 
     // *FETCH SUBMISSIONS FOR A USER FROM SERVER* //
     useEffect(() => {
@@ -132,8 +108,6 @@ function App() {
       getUserSubmissions()
     }, [])
   
-    // http://localhost:4000/api/getApi/getCompetitionsAll
-    // http://localhost:5000/contests
     // Fetch Contests
     const fetchUserSubmissions = async () => {
       const useremail = user?.useremail
@@ -145,58 +119,8 @@ function App() {
      
     }
 
-    // ** //
-
-  // *FETCH TABLEQUERIES (queries for creating contest by Admin) FROM SERVER* //
-  // Note: after connecting backend, edit only the backend url (i.e. "http://localhost:5000/users")
-  // NOTE: to use the tableQueries table, u fetech each query in the queries array and run. this should be done
-  // often as no contest can hold without it. If you think of a better algo for this, the place to edit is CreateContestPage2.js
-  // NOTE: when a contest is deleted, get a list of all its tables and run quries to delete those tables from
-  // the backend
-
-  useEffect(() => {
-    const getTBQ = async () => {
-      const tbqueriesFromServer = await fetchTBQ()
-      setTableQueris(tbqueriesFromServer) 
-    }
-
-    getTBQ()
-  }, [])
-
-  // Fetch TableQueries
-  const fetchTBQ = async () => {
-    const res = await fetch("http://localhost:5000/tableQueries")
-    const data = await res.json()
-    
-    return data
-  }
-  // ** //
-
-  // *FETCH DBQUERIES (queries submitted by students) FROM SERVER* //
-  // Note: after connecting backend, edit only the backend url (i.e. "http://localhost:5000/users")
-  useEffect(() => {
-    const getDBQ = async () => {
-      const dbqueriesFromServer = await fetchDBQ()
-      setDbqueries(dbqueriesFromServer) 
-    }
-
-    getDBQ()
-  }, [])
-
-  // Fetch DBQueries
-  const fetchDBQ = async () => {
-    const res = await fetch("http://localhost:5000/dbqueries")
-    const data = await res.json()
-    
-    return data
-  }
-  // ** //
-
 // * ALL DB MANIPULATING PROCEDURES AND FUNCTIONS ARE IN THIS BLOCK * //
-// please add fnctions for the user table here
-
 // Add Submitted Query
-// localhost:4000/api/submission/submit/useremail?q=query&competition=competitionName
  const addQuery = async (submitted_query) => {
   //const competitionName = "real"
   const competitionName = submitted_query.contestTitle
@@ -210,11 +134,6 @@ function App() {
     body: JSON.stringify({q:query, competition:competitionName, id:useremail})
   })
 
-  // how table was updated before using dummy backend
-
-  //  const id = Math.floor(Math.random() * 10000) + 1
-  //  const newQuery = { id, ...submitted_query }
-  //  setDbqueries([...dbqueries, newQuery])
  }
 
  // Get queries from createContestPage2 for Contest addition
@@ -250,16 +169,8 @@ const addContest = async (contest) => {
     body: JSON.stringify(contest)
   })
 
-  // const data = await res.json()
-
-  // setContests([...contests, data])
   setcompetitionName(contest.competitionName)
 
-  // how contests table was updated before using dmmy backend
-
-  // const id = Math.floor(Math.random() * 10000) + 1
-  // const newContest = { id, ...contest }
-  // setContests([...contests, newContest])
 }
 
 // Delete Contest
@@ -337,9 +248,9 @@ const getUserInfo = async (userInfo) => {
             <Route path="/submissions" element={<Submissions dbqueries={userSubmissions} user={user} contests={contests}/>} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/logout" element={<Logout user={user}/>} />
-            <Route path="/view-leaderboard/:id" element={<ViewLeaderboard users={users} user={user} contests={contests} submissions={competitionSubmissions} dbqueries={dbqueries}/>} />
+            <Route path="/view-leaderboard/:id" element={<ViewLeaderboard users={users} user={user} contests={contests} submissions={competitionSubmissions} />} />
             <Route path="/submit-query/:id" element={<SubmitQuery onAdd={addQuery} user={user} contests={contests}/>} />
-            <Route path="/view-eval-result/:id" element={<ViewEvaluationResult user={user} submissions={competitionSubmissions} contests={contests} dbqueries={dbqueries}/>} />
+            <Route path="/view-eval-result/:id" element={<ViewEvaluationResult user={user} submissions={competitionSubmissions} contests={contests} />} />
             <Route path="/view-submission-result/:id" element={<ViewSubmissionResult user={user} submissions={competitionSubmissions} contests={contests} dbqueries={dbqueries}/>} />
           </Routes>
           <Footer user={user} />

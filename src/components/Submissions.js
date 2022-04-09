@@ -1,6 +1,6 @@
 import Submission from "./Submission"
 
-const Submissions = ({ dbqueries, contests, user }) => {
+const Submissions = ({ dbqueries, user }) => {
 
   // get user ID
   // const user_id = user?.useremail
