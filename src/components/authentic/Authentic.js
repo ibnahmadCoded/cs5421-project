@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Input, Form, Select, Card } from "antd";
+import { Button, Input, Form, Select, Card, Modal, Space } from "antd";
 import {UserOutlined, LockOutlined} from "@ant-design/icons"
 import { useLocation, useNavigate } from "react-router-dom";
 import * as api from "../../api/index.js";
@@ -36,6 +36,13 @@ const tailFormItemLayout = {
       },
     },
 };
+
+function createErrorModal(errorMessage) {
+    Modal.error({
+      title: 'ERROR!',
+      content: errorMessage,
+    });
+}
 
 
 const Authentic = ({isAuth, changeIsAuth, changeUserInfo, changePath}) => {
@@ -108,28 +115,96 @@ const Authentic = ({isAuth, changeIsAuth, changeUserInfo, changePath}) => {
             }
         }
     */
-    const onFinish = (values) => {
+    const onFinish = async(values) => {
         console.log('Received values of form: ', values);
         if (userType === "user") {
             if(isLogin) {
-                if(values.username === "gejing") {
-                    localStorage.setItem('profile', JSON.stringify(values));
+                const loginFormData = {
+                    email: values?.email,
+                    password: values?.password,
+                }
+                const res = await api.userLogin(loginFormData)
+                console.log(res)
+                
+                if(res?.data?.success === true) {
+                    let userInformation = {
+                        username: res?.data?.payload?.name,
+                        useremail: values.email,
+                        usertype: res?.data?.userType
+                    }
+                    localStorage.setItem('profile', JSON.stringify(userInformation));
                     changeUserInfo(JSON.parse(localStorage.getItem('profile')))
                     
                     changePath("/")
                     navigate("/")
+                } else if ( res?.status === 400 ) {
+                    
+                } else if (res?.status === 404) {
+
                 }
+
             } else {
-                setIsLogin(true)
-                form.resetFields();
+                const registerFormData = {
+                    name: values?.username,
+                    email: values?.email,
+                    password: values?.password,
+                    studentId: values?.studentid,
+                }
+                console.log(registerFormData)
+                const res = await api.userRegister(registerFormData)
+                console.log(res)
+                if (res?.status === 400) {
+                    /**/
+                    createErrorModal("Email already exists")
+                    form.resetFields()
+                } else {
+                    setIsLogin(true)
+                    form.resetFields()
+                }
             }
         } else if (userType === "admin") {
             if(isLogin) {
-                changePath("/")
-                navigate("/")
+                const loginFormData = {
+                    email: values?.email,
+                    password: values?.password,
+                }
+                const res = await api.adminLogin(loginFormData)
+                console.log(res)
+                if(res?.data?.success === true) {
+                    let userInformation = {
+                        username: res?.data?.payload?.name,
+                        usertype: res?.data?.userType
+                    }
+                    localStorage.setItem('profile', JSON.stringify(userInformation));
+                    changeUserInfo(JSON.parse(localStorage.getItem('profile')))
+
+                    changePath("/")
+                    navigate("/")
+                } else if (res?.status === 404) {
+
+                } else if (res?.status === 400) {
+
+                }
+                
             } else {
-                setIsLogin(true)
-                form.resetFields();
+                const registerFormData = {
+                    name: values.username,
+                    email: values.email,
+                    password: values.password,
+                    department: values.department,
+                    designation: values.designation,
+                }
+                console.log(registerFormData)
+                const res = await api.adminRegister(registerFormData)
+                console.log(res)
+
+                if(res?.status === 400) {
+                    createErrorModal("Email already exists")
+                    form.resetFields()
+                } else {
+                    setIsLogin(true)
+                    form.resetFields();
+                }      
             }
         }
     };
@@ -176,7 +251,7 @@ const Authentic = ({isAuth, changeIsAuth, changeUserInfo, changePath}) => {
                                     ]}
                             >
                                 <Select 
-                                    placeholder="Select a option and change input text above"
+                                    placeholder="Please select your user type"
                                     onChange={onUserTypeChange}
                                 >
                                     <Option value="user">user</Option>
@@ -184,15 +259,20 @@ const Authentic = ({isAuth, changeIsAuth, changeUserInfo, changePath}) => {
                                 </Select>
                             </Form.Item>
                             <Form.Item 
-                                name="username"
+                                name="email"
+                                tooltip="please input your nus E-mail like xxxxx@u.nus.edu"
                                 rules={[
                                     {
+                                        pattern: new RegExp(".+@u.nus.edu"),
+                                        message: 'The input is not valid NUS e-mail address!',
+                                    },
+                                    {
                                         required: true,
-                                        message: 'Please input your Username!',
+                                        message: 'Please input your E-mail!',
                                     },
                                 ]}
                             >
-                                <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+                                <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="please input your nus e-mail like xxxx@u.nus.edu" />
                             </Form.Item>
                             <Form.Item
                                 name="password"
@@ -246,6 +326,13 @@ const Authentic = ({isAuth, changeIsAuth, changeUserInfo, changePath}) => {
                                     <Option value="admin">admin</Option>
                                 </Select>
                             </Form.Item>
+                            <Form.Item
+                                name="username"
+                                label="username"
+                                rules={[{ required: true, message: 'Please input your username!', whitespace: true }]}
+                            >
+                                <Input placeholder="please input your username"/>
+                            </Form.Item>
                             {
                                 (userType === "user") && (
                                     <Form.Item
@@ -262,13 +349,14 @@ const Authentic = ({isAuth, changeIsAuth, changeUserInfo, changePath}) => {
                                             },
                                         ]}
                                     >
-                                        <Input />
+                                        <Input placeholder="please input your nus e-mail"/>
                                     </Form.Item>
                                 )   
                             }
                             <Form.Item
                                 name="email"
                                 label="E-mail"
+                                tooltip="please input your nus E-mail like xxxxx@u.nus.edu"
                                 rules={[
                                     {
                                         pattern: new RegExp(".+@u.nus.edu"),
@@ -280,7 +368,7 @@ const Authentic = ({isAuth, changeIsAuth, changeUserInfo, changePath}) => {
                                     },
                                 ]}
                             >
-                                <Input />
+                                <Input placeholder="please input your nus e-mail"/>
                             </Form.Item>
                             <Form.Item
                                 name="password"
