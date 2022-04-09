@@ -14,13 +14,14 @@ const ViewLeaderboardMember = ({ corr_query, user, users }) => {
     // get username (Student ID from NUS)
     const username = user_.map(user => {return user.username})[0]
 
+    console.log(corr_query)
+
     return (
         <div className={`leaderboard`}>
             <>
                 {user.map(user => {return user.userType})[0] === "Admin" ? 
                     <p>
-                        <span>{username}</span>
-                        <span className="leaderboardP">{corr_query.query}</span> 
+                        <span>{corr_query.creatorId}</span>
                         <span className="leaderboardP">{corr_query.executionTime}</span> 
                         <span className="leaderboardP">{corr_query.planningTime}</span> 
                         <span className="leaderboardP">
@@ -29,7 +30,7 @@ const ViewLeaderboardMember = ({ corr_query, user, users }) => {
                     </p>
                     : 
                     <p>
-                        <span>{username}</span> 
+                        <span>{corr_query.creatorId}</span> 
                         <span className="leaderboardP1">{corr_query.executionTime}</span> 
                         <span className="leaderboardP1">{corr_query.planningTime}</span>
                         {user.map(user => {return user.id})[0] === 
@@ -40,7 +41,7 @@ const ViewLeaderboardMember = ({ corr_query, user, users }) => {
                         : ""}
                     </p>
                 }
-                <p style={{color:"#ED6630", fontSize:"10px"}}>Submitted on {corr_query.submissionDate}</p>
+                <p style={{color:"#ED6630", fontSize:"10px"}}>Submitted on {corr_query.createTime}</p>
             </>
         </div>
     )

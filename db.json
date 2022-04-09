@@ -119,6 +119,42 @@
       "result": "",
       "query": "SELECT Table1;",
       "id": 5
+    },
+    {
+      "userId": 2,
+      "query": "SELECT cd;",
+      "contestTitle": "re",
+      "id": 6
+    },
+    {
+      "userId": 2,
+      "query": "select CD;",
+      "contestTitle": "re",
+      "id": 7
+    },
+    {
+      "userId": 2,
+      "query": "select *;",
+      "contestTitle": "re",
+      "id": 8
+    },
+    {
+      "userId": 2,
+      "query": "select *;",
+      "contestTitle": "re",
+      "id": 9
+    },
+    {
+      "userId": 2,
+      "query": "select *;",
+      "contestTitle": "re",
+      "id": 10
+    },
+    {
+      "userId": 2,
+      "query": "select * ;",
+      "contestTitle": "re",
+      "id": 11
     }
   ],
   "tableQueries": [

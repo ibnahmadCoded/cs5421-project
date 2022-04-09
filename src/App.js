@@ -25,6 +25,8 @@ function App() {
 
   const [users, setUsers] = useState([])
 
+  const [competitionName, setcompetitionName] = useState()
+
   const [userInfo, setUserInfo] = useState(JSON.parse(localStorage.getItem('profile')))
 
   const [isAuth, setIsAuth] = useState(userInfo === null ? false : true)
@@ -36,6 +38,8 @@ function App() {
   const [tableQueries, setTableQueris] = useState([])
 
   const [currentPath, setCurrentPath] = useState(window.location.pathname)
+
+  const [competitionSubmissions, setCompetitionSubmissions] = useState([])
 
   useEffect(() => {
     setCurrentPath(window.location.pathname)
@@ -81,11 +85,32 @@ function App() {
     getContests()
   }, [])
 
+  // http://localhost:4000/api/getApi/getCompetitionsAll
+  // http://localhost:5000/contests
   // Fetch Contests
   const fetchContests = async () => {
-    const res = await fetch("http://localhost:5000/contests")
+    const res = await fetch("http://localhost:4000/api/getApi/getCompetitionsAll")
     const data = await res.json()
-    
+    return data.eventArr
+  }
+  // ** //
+
+    // *FETCH SUBMISSIONS FOR A CONTEST FROM SERVER* //
+  useEffect(() => {
+    const getCompetitionSubmissions = async () => {
+      const submissionsFromServer = await fetchCompetitionSubmissions()
+      setCompetitionSubmissions(submissionsFromServer) 
+    }
+
+    getCompetitionSubmissions()
+  }, [])
+
+  // http://localhost:4000/api/getApi/getCompetitionsAll
+  // http://localhost:5000/contests
+  // Fetch Contests
+  const fetchCompetitionSubmissions = async () => {
+    const res = await fetch("http://localhost:4000/api/getApi/competition/real")
+    const data = await res.json()
     return data
   }
   // ** //
@@ -139,18 +164,20 @@ function App() {
 // please add fnctions for the user table here
 
 // Add Submitted Query
+// localhost:4000/api/submission/submit/useremail?q=query&competition=competitionName
  const addQuery = async (submitted_query) => {
-  const res = await fetch("http://localhost:5000/dbqueries", {
+  //const competitionName = "real"
+  const competitionName = submitted_query.contestTitle
+  const query = submitted_query.query
+  const useremail = "ali@u.nus.edu"
+  const res = await fetch(`http://localhost:4000/api/submission/submit`, {
     method: "POST",
     headers: {
       "Content-type": "application/json"
     },
-    body: JSON.stringify(submitted_query)
+    body: JSON.stringify({q:query, competition:competitionName, useremail:useremail})
   })
-
-  const data = await res.json()
-
-  setDbqueries([...dbqueries, data])
+  console.log(competitionName)
 
   // how table was updated before using dummy backend
 
@@ -162,28 +189,29 @@ function App() {
  // Get queries from createContestPage2 for Contest addition
  // save the queries in tableQueries table of DB
  const addTableQ = async (tableQ) => {
-    const res = await fetch("http://localhost:5000/tableQueries", {
+    const res = await fetch("http://localhost:4000/api/ce2/runQueries", {
       method: "POST",
       headers: {
         "Content-type": "application/json"
       },
       body: JSON.stringify(tableQ)
     })
+}
 
-    const data = await res.json()
-
-    setTableQueris([...tableQueries, data])
-
-    // how updating db was done before using dummy backend
-
-    // const id = Math.floor(Math.random() * 10000) + 1
-    // const newTableQ = { id, ...tableQ }
-    // setTableQueris([...tableQueries, newTableQ])
+// Add question to DB
+const addQuestion= async (question) => {
+  const res = await fetch("http://localhost:4000/api/ce2/questions", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json"
+    },
+    body: JSON.stringify(question)
+  })
 }
 
 // Add contest
 const addContest = async (contest) => {
-  const res = await fetch("http://localhost:5000/contests", {
+  const res = await fetch("http://localhost:4000/api/ce2/ce", {
     method: "POST",
     headers: {
       "Content-type": "application/json"
@@ -191,9 +219,10 @@ const addContest = async (contest) => {
     body: JSON.stringify(contest)
   })
 
-  const data = await res.json()
+  // const data = await res.json()
 
-  setContests([...contests, data])
+  // setContests([...contests, data])
+  setcompetitionName(contest.competitionName)
 
   // how contests table was updated before using dmmy backend
 
@@ -267,7 +296,7 @@ const getUserInfo = async (userInfo) => {
               (
                 <>
                   {contests.length > 0 ? (
-                    <Contests dbqueries={dbqueries} user={user} contests={contests} onDelete=
+                    <Contests user={user} contests={contests} onDelete=
                     {deleteContest} onToggle={toggleReminder}/>) : 
                     ("No Contests Available")}
                 </>
@@ -275,15 +304,15 @@ const getUserInfo = async (userInfo) => {
             <Route path="/login" element={<Authentic isAuth={isAuth} changeIsAuth={changeIsAuth} changeUserInfo={getUserInfo} changePath={changeCurrentPath} />}></Route>
             <Route path="/about" element={<About />} />
             <Route path="/create-contest" element={<CreateContest onAdd={addContest} />} />
-            <Route path="/create-contest-p2" element={<CreateContestPage2 user={user} onAdd={addTableQ}/>} />
+            <Route path="/create-contest-p2" element={<CreateContestPage2 onAdd={addTableQ}  onAddQuestion={addQuestion} competitionName={competitionName}/>} />
             <Route path="/create-contest-p3" element={<CreateContestPage3/>} />
             <Route path="/leaderboards" element={<Leaderboards user={user} leaderboards={contests}/>} />
             <Route path="/submissions" element={<Submissions dbqueries={dbqueries} user={user} contests={contests}/>} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/logout" element={<Logout user={user}/>} />
-            <Route path="/view-leaderboard/:id" element={<ViewLeaderboard users={users} user={user} contests={contests} dbqueries={dbqueries}/>} />
+            <Route path="/view-leaderboard/:id" element={<ViewLeaderboard users={users} user={user} contests={contests} submissions={competitionSubmissions} dbqueries={dbqueries}/>} />
             <Route path="/submit-query/:id" element={<SubmitQuery onAdd={addQuery} user={user} contests={contests}/>} />
-            <Route path="/view-eval-result/:id" element={<ViewEvaluationResult user={user} contests={contests} dbqueries={dbqueries}/>} />
+            <Route path="/view-eval-result/:id" element={<ViewEvaluationResult user={user} submissions={competitionSubmissions} contests={contests} dbqueries={dbqueries}/>} />
           </Routes>
           <Footer user={user} />
       </div>

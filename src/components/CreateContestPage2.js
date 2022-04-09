@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { useNavigate } from "react-router-dom";
 
-const CreateContestPage2 = ({user, onAdd}) => {
+const CreateContestPage2 = ({onAdd, onAddQuestion, competitionName}) => {
+    console.log(competitionName)
     const navigate = useNavigate();
 
     const onClick = (e) => {
@@ -9,9 +10,11 @@ const CreateContestPage2 = ({user, onAdd}) => {
     }
 
     // get data for onSubmit
-    const userId = user.map(user => {return user.id})[0]
+    // const userId = user.map(user => {return user.id})[0]
 
     const [queries, setQuery] = useState("")
+    const [question, setQuestion] = useState("")
+    const [answer, setAnswer] = useState("")
     
     const onSubmit = (e) => {
         e.preventDefault()
@@ -21,10 +24,36 @@ const CreateContestPage2 = ({user, onAdd}) => {
             return 
         }
 
-        onAdd({queries, userId})
+        onAdd({competitionName: competitionName, query:queries})
 
         setQuery("")
     }
+
+    const onSetQuestion = (e) => {
+        e.preventDefault()
+
+        if (!answer) {
+            alert("Please add answer")
+            return 
+        }
+
+        if (!question) {
+            alert("Please add a question")
+            return 
+        }
+
+        onAddQuestion({
+            questions: question,
+            query: answer,
+            competitionName: competitionName
+        
+        })
+
+        setQuestion("")
+        setAnswer("")
+        navigate(`/create-contest-p3`)
+    }
+
     return (
         <>
           <center>
@@ -42,15 +71,31 @@ const CreateContestPage2 = ({user, onAdd}) => {
                           </div>
                           <input type="submit" value="Run Query" className="btn btn-block" />
                 </form>
-                <div style={{marginTop:"150px"}}>
+                <form className="add-form" onSubmit={onSetQuestion}>
+                            <div className="form-control">
+                                <label>Question</label>
+                                <input id='contestform' style={{height:"40px", width: "83%"}} type="text" placeholder="Add Question" 
+                                value={question}
+                                onChange={(e) => setQuestion(e.target.value)}
+                                />
+                          </div>
+                          <div className="form-control">
+                              <label>Answer</label>
+                              <textarea style={{border:"solid 1px #ED6630", height:"113px", width: "80.7%"}}
+                              value={answer}
+                              onChange={(e) => setAnswer(e.target.value)}
+                              >
+                              </textarea>
+                          </div>
+                          <input type="submit" value="Submit Contest" className="btn btn-block" />
+                    </form>
+                {/* <div style={{marginTop:"150px"}}>
                     <p style={{fontSize:"10px", lineHeight:"15px", padding:"5px"}}>
                         Paste all your Queries and click Run Query.
                         Once you are done, click Submit Contest Button Below!!!
                     </p>
-                    <form onSubmit={onClick}>
-                          <input type="submit" value="Submit Contest" className="btn btn-block" />
-                    </form>
-                </div>
+                    
+                </div> */}
           </div>
         </>
     )

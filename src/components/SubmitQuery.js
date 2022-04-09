@@ -9,15 +9,12 @@ const SubmitQuery = ({ onAdd, contests,  user}) => {
       } = useMatch('/submit-query/:id');
     
     // get contest by ID
-    const contest = contests.filter((contest) => contest.id === parseInt(id))
+    const contest = contests.filter((contest) => contest.id === id)
 
     // get data for onSubmit
     const userId = user.map(user => {return user.id})[0]
-    const contestId = contest.map(cont => {return cont.id})[0]
-    const submissionDate = Date().toLocaleString()
-    const executionTime = 0
-    const planningTime = 0
-    const result = ""
+    // const contestId = contest.map(cont => {return cont.id})[0]
+    const contestTitle = contest.map(cont => {return cont.title})[0]
     const query = text
 
     // get data for query validation
@@ -25,10 +22,10 @@ const SubmitQuery = ({ onAdd, contests,  user}) => {
     const semiEnd = text.slice(-1) === ";"
 
     // get tables in contest
-    const tables = contest.map(cont => {return cont.tables})[0]
+    // const tables = contest.map(cont => {return cont.tables})[0]
 
     // check if the query is trying to access a table that exists
-    const inTables = tables.filter(element => text.slice(0, -1).split(" ").includes(element)).length > 0
+    // const inTables = tables.filter(element => text.slice(0, -1).split(" ").includes(element)).length > 0
 
     // check wrong query keywords to prevent SQL injection, for security
     const sqlInjectKeys = "CREATE UPDATE DELETE ALTER DROP POST GET MODIFY INSERT ADD CONSTRAINT BACKUP DATABASE COLUMN INDEX TABLE PROCEDURE DEFAULT INTO PRIMARY SET TRUNCATE VALUES"
@@ -52,10 +49,10 @@ const SubmitQuery = ({ onAdd, contests,  user}) => {
             return 
         }
 
-        if (!inTables) {
-            alert("Please query a table that exists in the contest. NOTE: Table name is case sensitive")
-            return 
-        }
+        // if (!inTables) {
+        //     alert("Please query a table that exists in the contest. NOTE: Table name is case sensitive")
+        //     return 
+        // }
 
         if (injectionQ) {
             alert("Please submit a query that does not alter the table(s)")
@@ -69,7 +66,7 @@ const SubmitQuery = ({ onAdd, contests,  user}) => {
 
 
         // add query to db
-        onAdd({userId, contestId, submissionDate, executionTime, planningTime, result, query})
+        onAdd({userId, query, contestTitle})
 
         // clear form
         setText("")
