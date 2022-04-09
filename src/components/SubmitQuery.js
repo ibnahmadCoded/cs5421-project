@@ -67,7 +67,6 @@ const SubmitQuery = ({ onAdd, contests,  user}) => {
 
         // add query to db
         onAdd({userId, query, contestTitle})
-        console.log(userId)
         // clear form
         setText("")
     }

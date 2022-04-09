@@ -7,7 +7,6 @@ const ViewEvaluationResult = ({user, submissions, contests, dbqueries}) => {
 
     // Get Query by ID from the query`s Id
     const query_ = submissions.filter((dbq) => dbq.id === id)
-    console.log(query_)
 
     // get contest by using query_
     // const contest = contests.filter((cont) => cont.id === 

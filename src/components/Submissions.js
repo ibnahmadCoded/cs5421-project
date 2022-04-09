@@ -3,11 +3,10 @@ import Submission from "./Submission"
 const Submissions = ({ dbqueries, contests, user }) => {
 
   // get user ID
-  const user_id = user.useremail
+  // const user_id = user?.useremail
 
   // get submissions
   const queries = dbqueries
-  console.log(queries)
 
   return (
     <>

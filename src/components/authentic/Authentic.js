@@ -74,7 +74,6 @@ const Authentic = ({isAuth, changeIsAuth, changeUserInfo, changePath}) => {
     const onModeSwitch = () => {
         form.resetFields();
         setIsLogin((previousIsLogin) => !previousIsLogin)
-        console.log(isLogin)
     }
 
     /*
@@ -122,7 +121,6 @@ const Authentic = ({isAuth, changeIsAuth, changeUserInfo, changePath}) => {
         }
     */
     const onFinish = async(values) => {
-        console.log('Received values of form: ', values);
         if (userType === "user") {
             if(isLogin) {
                 const loginFormData = {
@@ -132,7 +130,6 @@ const Authentic = ({isAuth, changeIsAuth, changeUserInfo, changePath}) => {
 
                 try {
                     const res = await api.userLogin(loginFormData)
-                    console.log(res)
                     if(res?.data?.success === true) {
                         let userInformation = {
                             username: res?.data?.payload?.name,
@@ -146,7 +143,6 @@ const Authentic = ({isAuth, changeIsAuth, changeUserInfo, changePath}) => {
                         navigate("/")
                     }
                 } catch (error) {
-                    console.log(error)
                     if (error?.response?.status === 400) {
                         createErrorModal(error?.response?.data?.passwordincorrect)
                         form.setFieldsValue({password: ""})
@@ -162,7 +158,6 @@ const Authentic = ({isAuth, changeIsAuth, changeUserInfo, changePath}) => {
                     password: values?.password,
                     studentId: values?.studentid,
                 }
-                console.log(registerFormData)
                 try {
                     const res = await api.userRegister(registerFormData)
                     if (res?.status === 200) {
@@ -171,7 +166,6 @@ const Authentic = ({isAuth, changeIsAuth, changeUserInfo, changePath}) => {
                         form.resetFields()
                     }
                 } catch (error) {
-                    console.log(error)
                     if (error?.response?.status === 400) {
                         createErrorModal(error?.response?.data?.email)
                         form.resetFields()
@@ -187,7 +181,6 @@ const Authentic = ({isAuth, changeIsAuth, changeUserInfo, changePath}) => {
 
                 try {
                     const res = await api.adminLogin(loginFormData)
-                    console.log(res)
                     if(res?.data?.success === true) {
                         let userInformation = {
                             username: res?.data?.payload?.name,
@@ -201,7 +194,6 @@ const Authentic = ({isAuth, changeIsAuth, changeUserInfo, changePath}) => {
                         navigate("/")
                     }
                 } catch (error) {
-                    console.log(error)
                     if (error?.response?.status === 400) {
                         createErrorModal(error?.response?.data?.passwordincorrect)
                         form.setFieldsValue({password: ""})
@@ -218,7 +210,6 @@ const Authentic = ({isAuth, changeIsAuth, changeUserInfo, changePath}) => {
                     department: values.department,
                     designation: values.designation,
                 }
-                console.log(registerFormData)
                 try {
                     const res = await api.adminRegister(registerFormData)
                     if (res?.status === 200) {
@@ -227,7 +218,6 @@ const Authentic = ({isAuth, changeIsAuth, changeUserInfo, changePath}) => {
                         form.resetFields()
                     }
                 } catch (error) {
-                    console.log(error)
                     if (error?.response?.status === 400) {
                         createErrorModal(error?.response?.data?.email)
                         form.resetFields()

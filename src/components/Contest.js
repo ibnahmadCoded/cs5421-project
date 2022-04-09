@@ -28,7 +28,7 @@ const Contest = ({ contest, onDelete, onToggle, user}) => {
 
     return (
         <>
-        {user.usertype === "admin" ? 
+        {user?.usertype === "admin" ? 
             <div className={`contest`}>
                 <h3>
                     {contest.title}<FaTimes style={{ color: "#ED6630", cursor: "pointer" }} 

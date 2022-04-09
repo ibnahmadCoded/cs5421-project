@@ -3,7 +3,7 @@ import Button from './Button'
 
 const Leaderboard = ({ leaderboard, user }) => {
     const navigate = useNavigate();
-
+    
     const Click = (id) => {
         navigate(`/view-leaderboard/${id}`)
     }

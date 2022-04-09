@@ -12,9 +12,7 @@ const ViewLeaderboardMember = ({ corr_query, user, users }) => {
     const user_ = users.filter((use) => use.id === corr_query.userId)
 
     // get username (Student ID from NUS)
-    const username = user_.map(user => {return user.username})[0]
-
-    console.log(corr_query)
+    // const username = user_.map(user => {return user.username})[0]
 
     return (
         <div className={`leaderboard`}>

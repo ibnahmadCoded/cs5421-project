@@ -101,24 +101,25 @@ function App() {
   // ** //
 
     // *FETCH SUBMISSIONS FOR A CONTEST FROM SERVER* //
-  useEffect(() => {
-    const getCompetitionSubmissions = async () => {
-      const submissionsFromServer = await fetchCompetitionSubmissions()
-      setCompetitionSubmissions(submissionsFromServer) 
-    }
+  // useEffect(() => {
+  //   const getCompetitionSubmissions = async () => {
+  //     const submissionsFromServer = await fetchCompetitionSubmissions()
+  //     setCompetitionSubmissions(submissionsFromServer) 
+  //   }
 
-    getCompetitionSubmissions()
-  }, [])
+  //   getCompetitionSubmissions()
+  // }, [])
 
-  // http://localhost:4000/api/getApi/getCompetitionsAll
-  // http://localhost:5000/contests
-  // Fetch Contests
-  const fetchCompetitionSubmissions = async () => {
-    const res = await fetch("http://localhost:4000/api/getApi/competition/real")
-    const data = await res.json()
-    return data
-  }
-  // ** //
+  // // http://localhost:4000/api/getApi/getCompetitionsAll
+  // // http://localhost:5000/contests
+  // // Fetch Contests
+  // const fetchCompetitionSubmissions = async () => {
+  //   const comp = "real"
+  //   const res = await fetch(`http://localhost:4000/api/getApi/competition/${comp}`)
+  //   const data = await res.json()
+  //   return data
+  // }
+  // // ** //
 
     // *FETCH SUBMISSIONS FOR A USER FROM SERVER* //
     useEffect(() => {
@@ -135,9 +136,12 @@ function App() {
     // Fetch Contests
     const fetchUserSubmissions = async () => {
       const useremail = user?.useremail
-      const res = await fetch(`http://localhost:4000/api/getApi/user/${useremail}`)
-      const data = await res.json()
-      return data
+      if(user?.usertype !== "admin"){
+        const res = await fetch(`http://localhost:4000/api/getApi/user/${useremail}`)
+        const data = await res.json()
+        return data
+      }
+     
     }
     // ** //
 
@@ -299,7 +303,7 @@ const changeIsAuth = (value) => {
   setIsAuth(value)
 }
 
-console.log(currentPath)
+
 const getUserInfo = async (userInfo) => {
   setUserInfo(userInfo)
   setIsAuth(userInfo === null ? false : true)

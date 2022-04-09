@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from "react-router-dom";
 
 const CreateContestPage2 = ({onAdd, onAddQuestion, competitionName}) => {
-    console.log(competitionName)
+    
     const navigate = useNavigate();
 
     const onClick = (e) => {
