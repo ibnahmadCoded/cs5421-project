@@ -41,6 +41,11 @@ function App() {
 
   const [competitionSubmissions, setCompetitionSubmissions] = useState([])
 
+  const [userSubmissions, setUserSubmissions] = useState([])
+
+  // GET USER
+  const user = userInfo
+
   useEffect(() => {
     setCurrentPath(window.location.pathname)
   },[])
@@ -115,6 +120,27 @@ function App() {
   }
   // ** //
 
+    // *FETCH SUBMISSIONS FOR A USER FROM SERVER* //
+    useEffect(() => {
+      const getUserSubmissions = async () => {
+        const submissionsFromServer = await fetchUserSubmissions()
+        setUserSubmissions(submissionsFromServer) 
+      }
+  
+      getUserSubmissions()
+    }, [])
+  
+    // http://localhost:4000/api/getApi/getCompetitionsAll
+    // http://localhost:5000/contests
+    // Fetch Contests
+    const fetchUserSubmissions = async () => {
+      const useremail = user?.useremail
+      const res = await fetch(`http://localhost:4000/api/getApi/user/${useremail}`)
+      const data = await res.json()
+      return data
+    }
+    // ** //
+
   // *FETCH TABLEQUERIES (queries for creating contest by Admin) FROM SERVER* //
   // Note: after connecting backend, edit only the backend url (i.e. "http://localhost:5000/users")
   // NOTE: to use the tableQueries table, u fetech each query in the queries array and run. this should be done
@@ -169,15 +195,14 @@ function App() {
   //const competitionName = "real"
   const competitionName = submitted_query.contestTitle
   const query = submitted_query.query
-  const useremail = "ali@u.nus.edu"
+  const useremail = submitted_query.userId
   const res = await fetch(`http://localhost:4000/api/submission/submit`, {
     method: "POST",
     headers: {
       "Content-type": "application/json"
     },
-    body: JSON.stringify({q:query, competition:competitionName, useremail:useremail})
+    body: JSON.stringify({q:query, competition:competitionName, id:useremail})
   })
-  console.log(competitionName)
 
   // how table was updated before using dummy backend
 
@@ -263,11 +288,7 @@ const toggleReminder = (id) => {
 
 // ** //
 
-// TODO: change this to get user_id by session 
-// Get User with id = 1. This should be passed from backend after signIn
-const user = users.filter((user) => user.id === 2)
-
-// get current url for the purpose of updating highlights in sidebar
+// get current url for the purpose of updating highlights in sidebar "Admin", user
 const currentUrl = "/"+(window.location.href).split("/").slice(-1)
 
 const changeCurrentPath = async (path) => {
@@ -307,7 +328,7 @@ const getUserInfo = async (userInfo) => {
             <Route path="/create-contest-p2" element={<CreateContestPage2 onAdd={addTableQ}  onAddQuestion={addQuestion} competitionName={competitionName}/>} />
             <Route path="/create-contest-p3" element={<CreateContestPage3/>} />
             <Route path="/leaderboards" element={<Leaderboards user={user} leaderboards={contests}/>} />
-            <Route path="/submissions" element={<Submissions dbqueries={dbqueries} user={user} contests={contests}/>} />
+            <Route path="/submissions" element={<Submissions dbqueries={userSubmissions} user={user} contests={contests}/>} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/logout" element={<Logout user={user}/>} />
             <Route path="/view-leaderboard/:id" element={<ViewLeaderboard users={users} user={user} contests={contests} submissions={competitionSubmissions} dbqueries={dbqueries}/>} />

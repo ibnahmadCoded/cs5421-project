@@ -1,7 +1,7 @@
 const Footer = ({user}) => {
   return (
     <footer>
-        {user.map(user => {return user.userType})[0] === "Admin" ? (
+        {user?.usertype === "admin" ? (
             <>
             <p>Copyright &copy; 2022</p>
             <a href="/" style={{padding:"10px"}}>Home</a>

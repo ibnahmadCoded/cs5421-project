@@ -6,16 +6,16 @@ import controlImg from '../assets/control.png'
 const SideBar = ({user, url}) => {
     const [open, setOpen] = useState(true);
     const Menus = [
-        {"title": "Home", src: "home", "userType": "Admin", path:"/"},
-        {"title": "Home", src: "home", "userType": "Student", path:"/"},
-        {"title": "Leaderboards", src: "leaderboard", "userType": "Admin", path:"/leaderboards"},
-        {"title": "My Submissions", src: "history", "userType": "Student", path:"/submissions"},
-        {"title": "Settings", src: "settings", gap: true, "userType": "Student", path:"/settings"},
-        {"title": "Settings", src: "settings", gap: true, "userType": "Admin", path:"/settings"},
-        {"title": "Create Contest", src: "contest", "userType": "Admin", path:"/create-contest"},
-        {"title": "Leaderboards", src: "leaderboard", "userType": "Student", path:"/leaderboards"},
-        {"title": "About", src: "about", "userType": "Admin", path:"/about"},
-        {"title": "About", src: "about", "userType": "Student", path:"/about"},
+        {"title": "Home", src: "home", "userType": "admin", path:"/"},
+        {"title": "Home", src: "home", "userType": "user", path:"/"},
+        {"title": "Leaderboards", src: "leaderboard", "userType": "admin", path:"/leaderboards"},
+        {"title": "My Submissions", src: "history", "userType": "user", path:"/submissions"},
+        {"title": "Settings", src: "settings", gap: true, "userType": "user", path:"/settings"},
+        {"title": "Settings", src: "settings", gap: true, "userType": "admin", path:"/settings"},
+        {"title": "Create Contest", src: "contest", "userType": "admin", path:"/create-contest"},
+        {"title": "Leaderboards", src: "leaderboard", "userType": "user", path:"/leaderboards"},
+        {"title": "About", src: "about", "userType": "admin", path:"/about"},
+        {"title": "About", src: "about", "userType": "user", path:"/about"},
     ]
 
     return (
@@ -34,7 +34,7 @@ const SideBar = ({user, url}) => {
             </div>
             <ul className="pt-6">
             { 
-                Menus.filter(menus => menus.userType === user.map(user => {return user.userType})[0]).map((menu, index) => 
+                Menus.filter(menus => menus.userType === user?.usertype).map((menu, index) => 
                 <li 
                 key={index}
                 className={`text-gray-300 text-sm flex items-center 

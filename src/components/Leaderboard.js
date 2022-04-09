@@ -11,7 +11,7 @@ const Leaderboard = ({ leaderboard, user }) => {
     return (
         <div className={`leaderboard`}>
             <h3>
-                {leaderboard.title} {user.map(user => {return user.userType})[0] === "Admin" ? 
+                {leaderboard.title} {user?.usertype === "admin" ? 
                 <Button color="#ED6630" text="View" onClick={() => Click(leaderboard.id)}/> : 
                 <Button color="#ED6630" text="View" onClick={() => Click(leaderboard.id)}/>} 
             </h3>

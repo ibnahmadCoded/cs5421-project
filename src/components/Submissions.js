@@ -3,10 +3,11 @@ import Submission from "./Submission"
 const Submissions = ({ dbqueries, contests, user }) => {
 
   // get user ID
-  const user_id = user.map(use => {return use.id})[0]
+  const user_id = user.useremail
 
-  // get dbquries whose user ID is same as user_id
-  const queries = dbqueries.filter((dbquery) => dbquery.userId === user_id) 
+  // get submissions
+  const queries = dbqueries
+  console.log(queries)
 
   return (
     <>

@@ -12,7 +12,7 @@ const SubmitQuery = ({ onAdd, contests,  user}) => {
     const contest = contests.filter((contest) => contest.id === id)
 
     // get data for onSubmit
-    const userId = user.map(user => {return user.id})[0]
+    const userId = user?.useremail
     // const contestId = contest.map(cont => {return cont.id})[0]
     const contestTitle = contest.map(cont => {return cont.title})[0]
     const query = text
@@ -67,7 +67,7 @@ const SubmitQuery = ({ onAdd, contests,  user}) => {
 
         // add query to db
         onAdd({userId, query, contestTitle})
-
+        console.log(userId)
         // clear form
         setText("")
     }

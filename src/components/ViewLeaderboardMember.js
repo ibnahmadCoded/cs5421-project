@@ -19,7 +19,7 @@ const ViewLeaderboardMember = ({ corr_query, user, users }) => {
     return (
         <div className={`leaderboard`}>
             <>
-                {user.map(user => {return user.userType})[0] === "Admin" ? 
+                {user?.usertype === "admin" ? 
                     <p>
                         <span>{corr_query.creatorId}</span>
                         <span className="leaderboardP">{corr_query.executionTime}</span> 
@@ -33,8 +33,8 @@ const ViewLeaderboardMember = ({ corr_query, user, users }) => {
                         <span>{corr_query.creatorId}</span> 
                         <span className="leaderboardP1">{corr_query.executionTime}</span> 
                         <span className="leaderboardP1">{corr_query.planningTime}</span>
-                        {user.map(user => {return user.id})[0] === 
-                        user_.map(user => {return user.id})[0] ? 
+                        {user?.useremail === 
+                        corr_query.creatorId ? 
                         <span className="leaderboardP1">
                             <Button color="#ED6630" text="View" onClick={() => onClick(corr_query.id)}/>
                         </span>

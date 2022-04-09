@@ -26,13 +26,15 @@ const ViewLeaderboard = ({ contests, submissions,  user, dbqueries, users }) => 
     // get contes`s title
     const contest_title = contest.map(contest => {return contest.title})[0]
 
+    console.log(user)
+
     return (
         <>
             <center>
                 <h2>Leaderboard</h2>
                 <p style={{fontSize:"15px", color: "#ED6630"}}>{contest_title}</p>
             </center>
-            {user.map(user => {return user.userType})[0] === "Admin" ?
+            {user?.usertype === "admin" ?
                 <p>
                     <span style={{fontSize:"15px", paddingLeft: "25px", color: "#ED6630"}}>Student`s ID</span> 
                     <span style={{paddingLeft: "297px"}} className="leaderboardP4">Execution Time</span> 
