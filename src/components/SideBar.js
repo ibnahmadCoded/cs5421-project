@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Link } from "react-router-dom";
 import controlImg from '../assets/control.png'
-import logoVertical from '../assets/logo-vertical.png'
+// import logoVertical from '../assets/logo-vertical.png'
 
 const SideBar = ({user, url}) => {
     const [open, setOpen] = useState(true);
@@ -25,9 +25,9 @@ const SideBar = ({user, url}) => {
             -right-3 top-9 w-7 border-2 border-dark-blue ${!open  && "rotate-180"}`}
             onClick={() => setOpen(!open)}/>
             <div className="flex gap-x-4  items-center">
-            <img src={logoVertical}  alt="control-icon"  
+            {/* <img src={logoVertical}  alt="control-icon"  
             className={`cursor-pointer duration-500 ${open && "rotate-[360deg]"}`} 
-            height="40px"/>
+            height="40px"/> */}
             <h1 className={`text-white origin-left font-medium text-xl
             duration-300 ${!open  && "scale-0"}`}>
             </h1>
