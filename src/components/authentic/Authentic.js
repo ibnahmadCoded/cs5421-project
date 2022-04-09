@@ -44,6 +44,12 @@ function createErrorModal(errorMessage) {
     });
 }
 
+function createSuccessModal(successfulMessage) {
+    Modal.success({
+      content: successfulMessage,
+    });
+  }
+
 
 const Authentic = ({isAuth, changeIsAuth, changeUserInfo, changePath}) => {
     const [form] = Form.useForm()
@@ -123,26 +129,32 @@ const Authentic = ({isAuth, changeIsAuth, changeUserInfo, changePath}) => {
                     email: values?.email,
                     password: values?.password,
                 }
-                const res = await api.userLogin(loginFormData)
-                console.log(res)
-                
-                if(res?.data?.success === true) {
-                    let userInformation = {
-                        username: res?.data?.payload?.name,
-                        useremail: values.email,
-                        usertype: res?.data?.userType
+
+                try {
+                    const res = await api.userLogin(loginFormData)
+                    console.log(res)
+                    if(res?.data?.success === true) {
+                        let userInformation = {
+                            username: res?.data?.payload?.name,
+                            useremail: values.email,
+                            usertype: res?.data?.userType
+                        }
+                        localStorage.setItem('profile', JSON.stringify(userInformation));
+                        changeUserInfo(JSON.parse(localStorage.getItem('profile')))
+                        
+                        changePath("/")
+                        navigate("/")
                     }
-                    localStorage.setItem('profile', JSON.stringify(userInformation));
-                    changeUserInfo(JSON.parse(localStorage.getItem('profile')))
-                    
-                    changePath("/")
-                    navigate("/")
-                } else if ( res?.status === 400 ) {
-                    
-                } else if (res?.status === 404) {
-
+                } catch (error) {
+                    console.log(error)
+                    if (error?.response?.status === 400) {
+                        createErrorModal(error?.response?.data?.passwordincorrect)
+                        form.setFieldsValue({password: ""})
+                    } else if (error?.response?.status === 404) {
+                        createErrorModal(error?.response?.data?.emailnotfound)
+                        form.resetFields()
+                    }
                 }
-
             } else {
                 const registerFormData = {
                     name: values?.username,
@@ -151,15 +163,19 @@ const Authentic = ({isAuth, changeIsAuth, changeUserInfo, changePath}) => {
                     studentId: values?.studentid,
                 }
                 console.log(registerFormData)
-                const res = await api.userRegister(registerFormData)
-                console.log(res)
-                if (res?.status === 400) {
-                    /**/
-                    createErrorModal("Email already exists")
-                    form.resetFields()
-                } else {
-                    setIsLogin(true)
-                    form.resetFields()
+                try {
+                    const res = await api.userRegister(registerFormData)
+                    if (res?.status === 200) {
+                        setIsLogin(true)
+                        createSuccessModal("You have registered successfully!")
+                        form.resetFields()
+                    }
+                } catch (error) {
+                    console.log(error)
+                    if (error?.response?.status === 400) {
+                        createErrorModal(error?.response?.data?.email)
+                        form.resetFields()
+                    }
                 }
             }
         } else if (userType === "admin") {
@@ -168,24 +184,32 @@ const Authentic = ({isAuth, changeIsAuth, changeUserInfo, changePath}) => {
                     email: values?.email,
                     password: values?.password,
                 }
-                const res = await api.adminLogin(loginFormData)
-                console.log(res)
-                if(res?.data?.success === true) {
-                    let userInformation = {
-                        username: res?.data?.payload?.name,
-                        usertype: res?.data?.userType
+
+                try {
+                    const res = await api.adminLogin(loginFormData)
+                    console.log(res)
+                    if(res?.data?.success === true) {
+                        let userInformation = {
+                            username: res?.data?.payload?.name,
+                            useremail: values?.email,
+                            usertype: res?.data?.userType
+                        }
+                        localStorage.setItem('profile', JSON.stringify(userInformation));
+                        changeUserInfo(JSON.parse(localStorage.getItem('profile')))
+
+                        changePath("/")
+                        navigate("/")
                     }
-                    localStorage.setItem('profile', JSON.stringify(userInformation));
-                    changeUserInfo(JSON.parse(localStorage.getItem('profile')))
-
-                    changePath("/")
-                    navigate("/")
-                } else if (res?.status === 404) {
-
-                } else if (res?.status === 400) {
-
+                } catch (error) {
+                    console.log(error)
+                    if (error?.response?.status === 400) {
+                        createErrorModal(error?.response?.data?.passwordincorrect)
+                        form.setFieldsValue({password: ""})
+                    } else if (error?.response?.status === 404) {
+                        createErrorModal(error?.response?.data?.emailnotfound)
+                        form.resetFields()
+                    }
                 }
-                
             } else {
                 const registerFormData = {
                     name: values.username,
@@ -195,16 +219,20 @@ const Authentic = ({isAuth, changeIsAuth, changeUserInfo, changePath}) => {
                     designation: values.designation,
                 }
                 console.log(registerFormData)
-                const res = await api.adminRegister(registerFormData)
-                console.log(res)
-
-                if(res?.status === 400) {
-                    createErrorModal("Email already exists")
-                    form.resetFields()
-                } else {
-                    setIsLogin(true)
-                    form.resetFields();
-                }      
+                try {
+                    const res = await api.adminRegister(registerFormData)
+                    if (res?.status === 200) {
+                        setIsLogin(true)
+                        createSuccessModal("You have registered successfully!")
+                        form.resetFields()
+                    }
+                } catch (error) {
+                    console.log(error)
+                    if (error?.response?.status === 400) {
+                        createErrorModal(error?.response?.data?.email)
+                        form.resetFields()
+                    } 
+                }     
             }
         }
     };
