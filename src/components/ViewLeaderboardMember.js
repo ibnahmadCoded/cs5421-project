@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import Button from './Button'
 
-const ViewLeaderboardMember = ({ corr_query, user, users }) => {
+const ViewLeaderboardMember = ({ corr_query, user  }) => {
     const navigate = useNavigate();
 
     const onClick = (id) => {
@@ -9,10 +9,10 @@ const ViewLeaderboardMember = ({ corr_query, user, users }) => {
     }
 
     // Get User by ID from the query`s userId
-    const user_ = users.filter((use) => use.id === corr_query.userId)
+    // const user_ = users.filter((use) => use.id === corr_query.userId)
 
-    // get username (Student ID from NUS)
-    // const username = user_.map(user => {return user.username})[0]
+    // save the query in local storage to use in view evaluation page
+    localStorage.setItem('leaderboardQ', JSON.stringify(corr_query));
 
     return (
         <div className={`leaderboard`}>

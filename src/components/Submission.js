@@ -5,8 +5,11 @@ const Submission = ({ query }) => {
     const navigate = useNavigate();
 
     const Click = (id) => {
-        navigate(`/view-eval-result/${id}`)
+        navigate(`/view-submission-result/${id}`)
     }
+
+    
+    localStorage.setItem('submissionQ', JSON.stringify(query));
 
     return (
         <div className={`leaderboard`}>

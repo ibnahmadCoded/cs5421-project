@@ -20,9 +20,9 @@ const ViewLeaderboard = ({ contests,   user, dbqueries, users }) => {
 
     // filter for correct queries in the current quries for the current contest
     // const corr_queries = contests
-    console.log(id)
-    console.log(contests)
-    console.log(contest.map(use => {return use.title})[0])
+    // console.log(id)
+    // console.log(contests)
+    // console.log(contest.map(use => {return use.title})[0])
 
       // *FETCH SUBMISSIONS FOR A CONTEST FROM SERVER* //
 
@@ -44,7 +44,7 @@ const ViewLeaderboard = ({ contests,   user, dbqueries, users }) => {
             const res = await fetch(`http://localhost:4000/api/getApi/competition/${comp}`)
             const data = await res.json()
             // setCorr_queries(data)
-            data.sort((a, b) => (a.executionTime < b.executionTime) ? 1 : -1)
+            data.sort((a, b) => (a.executionTime < b.executionTime) ? -1 : 1)
             return data
         }
 

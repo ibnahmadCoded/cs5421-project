@@ -1,15 +1,13 @@
-import { useMatch} from 'react-router-dom';
+const ViewSubmissionResult = () => {
 
-const ViewEvaluationResult = ({user, submissions, contests, dbqueries}) => {
-    const {
-        params: { id },
-      } = useMatch('/view-eval-result/:id');
+    const submissionQ = JSON.parse(localStorage.getItem('submissionQ'))
+    
 
-    const leaderboardQ = JSON.parse(localStorage.getItem('leaderboardQ'))
+    const query_ = submissionQ
 
-    const query_ = leaderboardQ
+    console.log(submissionQ)
 
-    // Is the evaluation result pass or fail??
+
     const eval_result = query_.queryResult === "correct"
 
     // get contest title
@@ -57,4 +55,4 @@ const ViewEvaluationResult = ({user, submissions, contests, dbqueries}) => {
     )
 }
 
-export default ViewEvaluationResult
+export default ViewSubmissionResult

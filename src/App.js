@@ -16,6 +16,7 @@ import ViewEvaluationResult from "./components/ViewEvaluationResult"
 import CreateContestPage2 from "./components/CreateContestPage2"
 import CreateContestPage3 from "./components/CreateContestPage3"
 import Authentic from "./components/authentic/Authentic"
+import ViewSubmissionResult from "./components/ViewSubmissionResult"
 
 function App() {
 
@@ -143,6 +144,7 @@ function App() {
       }
      
     }
+
     // ** //
 
   // *FETCH TABLEQUERIES (queries for creating contest by Admin) FROM SERVER* //
@@ -338,6 +340,7 @@ const getUserInfo = async (userInfo) => {
             <Route path="/view-leaderboard/:id" element={<ViewLeaderboard users={users} user={user} contests={contests} submissions={competitionSubmissions} dbqueries={dbqueries}/>} />
             <Route path="/submit-query/:id" element={<SubmitQuery onAdd={addQuery} user={user} contests={contests}/>} />
             <Route path="/view-eval-result/:id" element={<ViewEvaluationResult user={user} submissions={competitionSubmissions} contests={contests} dbqueries={dbqueries}/>} />
+            <Route path="/view-submission-result/:id" element={<ViewSubmissionResult user={user} submissions={competitionSubmissions} contests={contests} dbqueries={dbqueries}/>} />
           </Routes>
           <Footer user={user} />
       </div>
