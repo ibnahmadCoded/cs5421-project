@@ -7,7 +7,7 @@ const CreateContestPage3 = () => {
           </center>
           <div style={{display:"flex"}}>
                 <div style={{marginTop:"150px"}}>
-                    <p style={{fontSize:"10px", lineHeight:"15px", padding:"5px"}}>
+                    <p style={{fontSize:"25px", lineHeight:"15px", padding:"5px"}}>
                         Thank you for submitting contest!
                     </p>
                 </div>

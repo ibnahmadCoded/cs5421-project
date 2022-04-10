@@ -227,7 +227,7 @@ const getUserInfo = async (userInfo) => {
     <Router>
       <div className={currentPath === "/login" ? "login_flex" : "flex"}>
         <SideBar user={user} url={currentUrl}/>
-        <div className="p-7 text-2xl font-semibold flex-1 h-screen">
+        <div style={{ overflowY: "scroll" }} className="p-7 text-2xl font-semibold flex-1 h-screen">
         <Header userInfo = {userInfo} changeUserInfo = {getUserInfo} isAuth = {isAuth} changePath = {changeCurrentPath}/>
           <Routes>
             <Route path="/" exact element={ 
