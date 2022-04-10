@@ -40,16 +40,19 @@ const ViewLeaderboard = ({ contests,   user, users }) => {
           }, [])
 
         const fetchCompetitionSubmissions = async () => {
-            const comp = contest.map(use => {return use.title})[0]
-            const res = await fetch(`http://localhost:4000/api/getApi/competition/${comp}`)
-            const data = await res.json()
-            // setCorr_queries(data)
-            data.sort((a, b) => (a.executionTime < b.executionTime) ? -1 : 1)
-            return data
+            const comp = contest && contest.map(use => {return use.title})[0]
+            if(comp) {
+                const res = await fetch(`http://localhost:4000/api/getApi/competition/${comp}`)
+                const data = await res.json()
+                // setCorr_queries(data)
+                data.sort((a, b) => (a.executionTime < b.executionTime) ? -1 : 1)
+                return data
+            }
+            
         }
     
     // get contes`s title
-    const contest_title = contest.map(contest => {return contest.title})[0]
+    const contest_title = contest && typeof(contest) != 'undefined' && contest.map(contest => {return contest.title})[0]
 
     return (
         <>
@@ -59,20 +62,20 @@ const ViewLeaderboard = ({ contests,   user, users }) => {
             </center>
             {user?.usertype === "admin" ?
                 <p>
-                    <span style={{fontSize:"15px", paddingLeft: "65px", color: "#ED6630"}}>Student`s ID</span> 
-                    <span style={{paddingLeft: "297px"}} className="leaderboardP4">Execution Time</span> 
-                    <span style={{paddingLeft: "245px"}} className="leaderboardP4">Planning Time</span>
+                    <span style={{fontSize:"15px", paddingLeft: "55px", color: "#ED6630"}}>Student`s ID</span> 
+                    <span style={{paddingLeft: "200px"}} className="leaderboardP4">Execution Time</span> 
+                    <span style={{paddingLeft: "200px"}} className="leaderboardP4">Planning Time</span>
                     <span className="leaderboardP4"></span>
                 </p>
                 :
                 <p>
-                    <span style={{fontSize:"15px", paddingLeft: "65px", color: "#ED6630"}}>Student`s ID</span> 
-                    <span style={{paddingLeft: "297px"}} className="leaderboardP4">Execution Time</span> 
-                    <span style={{paddingLeft: "245px"}} className="leaderboardP4">Planning Time</span>
+                    <span style={{fontSize:"15px", paddingLeft: "55px", color: "#ED6630"}}>Student`s ID</span> 
+                    <span style={{paddingLeft: "200px"}} className="leaderboardP4">Execution Time</span> 
+                    <span style={{paddingLeft: "140px"}} className="leaderboardP4">Planning Time</span>
                     <span className="leaderboardP4"></span>
                 </p>
             }
-            {corr_queries.map((corr_query) => (
+            {corr_queries && corr_queries.map((corr_query) => (
                 <ViewLeaderboardMember key={corr_query.id} user={user} users={users} 
                 contest={contest} corr_query={corr_query}/>
             ))}

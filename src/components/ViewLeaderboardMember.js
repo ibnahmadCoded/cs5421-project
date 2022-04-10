@@ -19,7 +19,7 @@ const ViewLeaderboardMember = ({ corr_query, user  }) => {
                         <span>{corr_query.creatorId}</span>
                         <span className="leaderboardP1">{corr_query.executionTime}</span> 
                         <span className="leaderboardP1">{corr_query.planningTime}</span> 
-                        <span style={{paddingLeft:"150px"}}>
+                        <span style={{paddingLeft:"130px"}}>
                             <Button color="#ED6630" text="View" onClick={() => onClick(corr_query.id)}/>
                         </span>
                     </p>
@@ -30,7 +30,7 @@ const ViewLeaderboardMember = ({ corr_query, user  }) => {
                         <span className="leaderboardP1">{corr_query.planningTime}</span>
                         {user?.useremail === 
                         corr_query.creatorId ? 
-                        <span style={{paddingLeft:"150px"}}>
+                        <span style={{paddingLeft:"130px"}}>
                             <Button color="#ED6630" text="View" onClick={() => onClick(corr_query.id)}/>
                         </span>
                         : ""}

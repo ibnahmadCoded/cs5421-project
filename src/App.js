@@ -61,28 +61,17 @@ function App() {
 
   // *FETCH USERS FROM SERVER* //
   // Note: after connecting backend, edit only the backend url (i.e. "http://localhost:5000/users")
-  useEffect(() => {
-    const getUsers = async () => {
-      const usersFromServer = await fetchUsers()
-      setUsers(usersFromServer) 
-    }
-
-    getUsers()
-  }, [])
 
   // Fetch Users
-  const fetchUsers = async () => {
-    const res = await fetch("http://localhost:5000/users")
-    const data = await res.json()
-    
-    return data
-  }
 
   // ** //
 
   // *FETCH CONTESTS FROM SERVER* //
   // Note: after connecting backend, edit only the backend url (i.e. "http://localhost:5000/users")
   useEffect(() => {
+    if(!userInfo){
+      return
+    }
     const getContests = async () => {
       const contestsFromServer = await fetchContests()
       setContests(contestsFromServer) 
@@ -111,7 +100,7 @@ function App() {
     // Fetch Contests
     const fetchUserSubmissions = async () => {
       const useremail = user?.useremail
-      if(user?.usertype !== "admin"){
+      if(user && user?.usertype !== "admin"){
         const res = await fetch(`http://localhost:4000/api/getApi/user/${useremail}`)
         const data = await res.json()
         return data
@@ -132,7 +121,7 @@ function App() {
       "Content-type": "application/json"
     },
     body: JSON.stringify({q:query, competition:competitionName, id:useremail})
-  })
+  }).finally(window.location.reload(false))
 
  }
 
